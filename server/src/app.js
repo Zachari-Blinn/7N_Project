@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Function routes
-// TODO
+app.use('/user', require('./routes/user.route'));
 
 app.listen(process.env.PORT, function () {
     console.clear();
