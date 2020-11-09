@@ -10,7 +10,7 @@ exports.user_register = async (req, res) => {
                 console.log(err);
             }
 
-            // if user isn't existing crypt password and push to database
+            // If user isn't existing, crypt password and push to database
             if(!user){
                 bcrypt.hash(req.body.password, 10).then(cryptedPassword => {
                     req.body.password = cryptedPassword;
