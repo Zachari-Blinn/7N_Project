@@ -1,13 +1,11 @@
 // Import dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
-const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
-const connectDB = require('./config/config.db.js');
-
-// Setup env variable in /src/config/config.env
+const connectDB = require('./config/db.config.js');
 require('dotenv').config({path: './src/config/config.env'});
+const {server} = require('./config/console.config');
 
 // Load database
 connectDB();
@@ -21,9 +19,6 @@ const corsOptions = {origin: "*"};
 // Load CORS with options
 app.use(cors(corsOptions));
 
-// Load MORGAN with parameter
-app.use(morgan('dev'));
-
 // Parse requests of content-type - application/json
 app.use(bodyParser.json());
 
@@ -32,15 +27,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Function routes
 // TODO
-
-function State(type, status, port, env) {
-    this.type = type;
-    this.status = status;
-    this.port = port;
-    this.env = env;
-}
-
-let server = new State("SERVER", "OK", process.env.PORT, process.env.NODE_ENV);
 
 app.listen(process.env.PORT, function () {
     console.clear();
