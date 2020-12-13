@@ -9,13 +9,13 @@ const jwt = require('jsonwebtoken');
  */
 exports.user_register = async (req, res) => {
     try {
-        await User.findOne({email: req.body.email}, function (err, user) {
+        await User.findOne({email: req.body.email}, async function (err, user) {
             if(err){
                 console.log(err);
             }
 
             if(!user){
-                bcrypt.hash(req.body.password, 10).then(cryptedPassword => {
+                await bcrypt.hash(req.body.password, 10, function (err, cryptedPassword) {
                     req.body.password = cryptedPassword;
                     req.body.isActive = true;
 
@@ -33,7 +33,7 @@ exports.user_register = async (req, res) => {
                         }
                     );
 
-                })
+                });
             } else {
                 return res.status(400).json({
                     error: "User already existing"
@@ -52,7 +52,7 @@ exports.user_register = async (req, res) => {
  */
 exports.user_login = async (req, res) => {
     try {
-        await User.findOne({email: req.body.email}, function (err, user) {
+        await User.findOne({email: req.body.email}, async function (err, user) {
             if(err){
                 console.log(err);
             }
@@ -60,17 +60,21 @@ exports.user_login = async (req, res) => {
             if(user) {
                 if(await bcrypt.compare(req.body.password, user.password)){
                     res.status(200).send({
+                        auth: true,
                         user: user,
-                        message: "authentication is successful"
+                        message: "Authentication is successful"
                     });
                 } else {
                     res.status(404).send({
+                        auth: false,
                         user: null,
                         message: "Authentication failed"
                     })
                 }
             } else {
                 res.status(404).json({
+                    auth: false,
+                    user: null,
                     error: "User does not exist"
                 });
             }
