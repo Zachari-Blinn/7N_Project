@@ -1,11 +1,12 @@
 // Import dependencies
 const express = require('express');
 const bodyParser = require('body-parser');
+// eslint-disable-next-line no-unused-vars
 const path = require('path');
 const cors = require('cors');
 const connectDB = require('./config/db.config.js');
-require('dotenv').config({path: './src/config/config.env'});
-const {server} = require('./config/console.config');
+require('dotenv').config({ path: './src/config/config.env' });
+const { server } = require('./config/console.config');
 
 // Load database
 connectDB();
@@ -14,7 +15,7 @@ connectDB();
 const app = express();
 
 // Setup CORS options
-const corsOptions = {origin: "*"};
+const corsOptions = { origin: '*' };
 
 // Load CORS with options
 app.use(cors(corsOptions));
@@ -26,10 +27,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Function routes
-app.use('/user', require('./routes/user.route'));
+app.use('/auth', require('./routes/auth.routes'));
 
-app.listen(process.env.PORT, function () {
-    console.clear();
-    console.log("\x1b[44m%s\x1b[0m", "Starting Server");
-    console.table([server]);
+app.listen(process.env.PORT, () => {
+  console.clear();
+  console.log('\x1b[44m%s\x1b[0m', 'Starting Server');
+  console.table([server]);
 });
