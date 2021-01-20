@@ -2,6 +2,8 @@ const User = require('../models/user.model');
 
 /**
  * @description Create a new user
+ * @param {*} req
+ * @param {*} res
  */
 exports.user_create = async (req, res) => {
   try {
