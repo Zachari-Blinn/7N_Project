@@ -34,6 +34,11 @@ exports.user_findOne = async (req, res) => {
   }
 };
 
+/**
+ * @description Find all user
+ * @param {*} req
+ * @param {*} res
+ */
 exports.user_find = async (req, res) => {
   try {
     const user = await User.find();
