@@ -51,6 +51,11 @@ exports.user_find = async (req, res) => {
   }
 };
 
+/**
+ * @description Update selected user
+ * @param {*} req
+ * @param {*} res
+ */
 exports.user_update = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate({ _id: req.params.id }, {
