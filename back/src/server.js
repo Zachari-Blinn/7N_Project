@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const connectDB = require('./config/db.config.js');
 require('dotenv').config({ path: './src/config/config.env' });
-const { server } = require('./config/console.config');
 
 // Load database
 connectDB();
@@ -33,5 +32,4 @@ app.use('/user', require('./routes/user.routes'));
 app.listen(process.env.PORT, () => {
   console.clear();
   console.log('\x1b[44m%s\x1b[0m', 'Starting Server');
-  console.table([server]);
 });
