@@ -2,7 +2,7 @@ const Forum = require('../models/forum.model');
 
 /**
  * @description Create a new Forum
- * @param {title, description} req
+ * @param {title, description} req.body
  * @param {Forum} res
  */
 exports.forum_create = async (req, res) => {
@@ -19,7 +19,7 @@ exports.forum_create = async (req, res) => {
 
 /**
  * @description Find one forum by id
- * @param {id} req
+ * @param {id} req.params
  * @param {Forum} res
  */
 exports.forum_findOne = async (req, res) => {
@@ -34,6 +34,10 @@ exports.forum_findOne = async (req, res) => {
   }
 };
 
+/**
+ * @description Find all forum
+ * @param {Forum} res
+ */
 exports.forum_find = async (req, res) => {
   try {
     const forum = await Forum.find();
@@ -46,6 +50,11 @@ exports.forum_find = async (req, res) => {
   }
 };
 
+/**
+ * @description Update selected forum with id
+ * @param {id} req.params
+ * @param {Forum} res
+ */
 exports.forum_update = async (req, res) => {
   try {
     const forum = await Forum.findOneAndUpdate({ _id: req.params.id }, {
@@ -60,6 +69,11 @@ exports.forum_update = async (req, res) => {
   }
 };
 
+/**
+ * @description Delete selected forum with id
+ * @param {id} req.params
+ * @param {Forum} res
+ */
 exports.forum_delete = async (req, res) => {
   try {
     const forum = await Forum.findOneAndDelete({ _id: req.params.id });

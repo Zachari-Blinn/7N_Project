@@ -2,8 +2,8 @@ const User = require('../models/user.model');
 
 /**
  * @description Create a new user
- * @param {*} req
- * @param {*} res
+ * @param {Email, password} req.body
+ * @param {User} res
  */
 exports.user_create = async (req, res) => {
   try {
@@ -18,9 +18,9 @@ exports.user_create = async (req, res) => {
 };
 
 /**
- * @description Find one user by id
- * @param {*} req
- * @param {*} res
+ * @description Find one user with id
+ * @param {id} req.params
+ * @param {User} res
  */
 exports.user_findOne = async (req, res) => {
   try {
@@ -36,8 +36,7 @@ exports.user_findOne = async (req, res) => {
 
 /**
  * @description Find all user
- * @param {*} req
- * @param {*} res
+ * @param {User} res
  */
 exports.user_find = async (req, res) => {
   try {
@@ -52,9 +51,9 @@ exports.user_find = async (req, res) => {
 };
 
 /**
- * @description Update selected user
- * @param {*} req
- * @param {*} res
+ * @description Update selected user with id
+ * @param {id} req.params
+ * @param {User} res
  */
 exports.user_update = async (req, res) => {
   try {
@@ -70,6 +69,11 @@ exports.user_update = async (req, res) => {
   }
 };
 
+/**
+ * @description Delete selected user with id
+ * @param {id} req.params
+ * @param {User} res
+ */
 exports.user_delete = async (req, res) => {
   try {
     const user = await User.findOneAndDelete({ _id: req.params.id });
