@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Function routes
 app.use('/auth', require('./routes/auth.routes'));
+app.use('/forum', require('./routes/forum.routes'));
 app.use('/user', require('./routes/user.routes'));
 
 app.listen(process.env.PORT, () => {
