@@ -87,3 +87,13 @@ exports.user_delete = async (req, res) => {
     res.status(500).json(`Error: ${error}`);
   }
 };
+
+exports.user_me = async (req, res) => {
+  try {
+    const user = await User.findOne({_id: req.user.id});
+
+    res.json(user);
+  } catch (error) {
+    res.send({ message: "Error in Fetching user" });
+  }
+};

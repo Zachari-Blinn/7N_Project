@@ -9,7 +9,6 @@ const User = require('../models/user.model');
  */
 exports.auth_register = async (req, res) => {
   try {
-    // eslint-disable-next-line consistent-return
     await User.findOne({ email: req.body.email }, async (err, user) => {
       if (err) throw new Error(err);
 
@@ -20,7 +19,6 @@ exports.auth_register = async (req, res) => {
           req.body.isActive = true;
 
           User.create(req.body).then(
-            // eslint-disable-next-line no-shadow
             (user) => {
               res.status(201).json({
                 user,
@@ -53,18 +51,13 @@ exports.auth_register = async (req, res) => {
 exports.auth_login = async (req, res) => {
   try {
     await User.findOne({ email: req.body.email }, async (err, user) => {
-      if (err) {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      }
-
       if (user) {
         if (await bcrypt.compare(req.body.password, user.password)) {
           const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET);
 
           res.header('auth-token', token).send(token);
         } else {
-          res.status(404).send({
+          res.status(403).send({
             auth: false,
             message: 'Authentication failed',
           });
@@ -77,7 +70,6 @@ exports.auth_login = async (req, res) => {
       }
     });
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.log(error);
     res.status(500).send('Error on the server');
   }

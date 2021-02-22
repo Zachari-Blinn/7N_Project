@@ -1,25 +1,24 @@
-"use strict";
-
 let app = require('../../server');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-
 const { expect, assert } = chai;
 chai.use(chaiHttp);
 
+const route = '/forum';
+
 global.forum = {
-  title: "Covid & More",
+  title: 'Covid & More',
   description: "Le covid c'est pas bien"
 };
 
 describe("Forum controller", () => {
 
-  describe('POST route /forum', () => {
+  describe(`POST route ${route}`, () => {
     it("should return 201 status and verify data send", (done) => {
       chai
         .request(app)
-        .post('/forum')
-        .send(forum)
+        .post(route)
+        .send(global.forum)
         .end((err, res) => {
           expect(res).to.have.status(201);
 
@@ -31,11 +30,11 @@ describe("Forum controller", () => {
     });
   });
 
-  describe('GET route /forum', () => {
+  describe(`GET route ${route}`, () => {
     it("should return 200 status", (done) => {
       chai
         .request(app)
-        .get('/forum')
+        .get(route)
         .end((err, res) => {
           expect(res).to.have.status(200);
 

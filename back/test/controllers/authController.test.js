@@ -6,37 +6,34 @@ chai.use(chaiHttp);
 
 global.user = {
   email: "zachari.blinn@hotmail.com",
-  password: "dqsjjpajdezahd"
+  password: "dq4sjjp3ajd78ezahd"
 };
 
-describe("User controller", () => {
+describe("Auth controller", () => {
 
-  describe('POST route /user', () => {
-    it("should return 201 status and verify data send", (done) => {
+  describe(`Register route /auth/register`, () => {
+    it("should return 201 status", (done) => {
       chai
         .request(app)
-        .post('/user')
-        .send(user)
+        .post('/auth/register')
+        .send(global.user)
         .end((err, res) => {
           expect(res).to.have.status(201);
-
-          assert.equal(res.body.email, global.user.email);
-          assert.equal(res.body.password, global.user.password);
 
           done(err);
         });
     });
   });
 
-  describe('GET route /user', () => {
+  describe(`Login route /auth/login`, () => {
     it("should return 200 status", (done) => {
       chai
         .request(app)
-        .get('/user')
+        .post('/auth/login')
+        .send({email: global.email, password: global.password})
         .end((err, res) => {
-          expect(res).to.have.status(200);
-
-          done(err);
+          if (err) return done(err);
+          return done();
         });
     });
   });

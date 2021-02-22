@@ -2,15 +2,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const connectDB = require('./src/config/db.config');
-const mongoose = require('mongoose');
+const morgan = require('mongoose-morgan');
+const InitiateMongoServer = require('./src/config/db.config');
 require('dotenv').config({ path: './src/config/config.env' });
 
 // Load database
-connectDB();
+InitiateMongoServer();
 
 // Create express app
 const app = express();
+
+// Logger
+app.use(morgan({
+  collection: 'log',
+  connectionString: process.env.DB_URI
+  }, {}, 'short'
+));
 
 // Setup CORS options
 const corsOptions = { origin: '*' };
@@ -29,11 +36,9 @@ app.use('/auth', require('./src/routes/auth.routes'));
 app.use('/forum', require('./src/routes/forum.routes'));
 app.use('/user', require('./src/routes/user.routes'));
 
-var environment = process.env.NODE_ENV;
-
-app.listen(process.env.PORT, () => {
+app.listen(process.env.SERVER_PORT, () => {
   console.clear();
-  console.log('\x1b[44m%s\x1b[0m', 'Starting Server', environment);
+  console.log('Starting ' + process.env.NODE_ENV + ' server' + ' on ' + process.env.SERVER_PORT + ' port');
 });
 
 module.exports = app;
