@@ -43,34 +43,47 @@ exports.auth_register = async (req, res) => {
   }
 };
 
-/**
- * @description User login with credential
- * @param {email, password} req.body
- * @param {token} res
- */
-exports.auth_login = async (req, res) => {
-  try {
-    await User.findOne({ email: req.body.email }, async (err, user) => {
-      if (user) {
-        if (await bcrypt.compare(req.body.password, user.password)) {
-          const token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET);
+let refreshTokens = [];
 
-          res.header('auth-token', token).send(token);
-        } else {
-          res.status(403).send({
-            auth: false,
-            message: 'Authentication failed',
-          });
-        }
-      } else {
-        res.status(404).json({
-          auth: false,
-          error: 'User does not exist',
-        });
-      }
+exports.auth_token = async (req, res) => {
+  try {
+    const refreshToken = req.body.token;
+
+    if (refreshToken == null) throw new Error('Forbiden!');
+
+    if (!refreshTokens.includes(refreshToken)) throw new Error('Forbiden!');
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+      if (err) return res.sendStatus(403);
+
+      const accessToken = generateAccessToken({ name: user.name });
+
+      res.json({ accessToken: accessToken });
     });
   } catch (error) {
     console.log(error);
     res.status(500).send('Error on the server');
   }
+};
+
+exports.auth_logout = (req, res) => {
+  refreshTokens = refreshTokens.filter(token => token !== req.body.token);
+
+  res.sendStatus(204);
+};
+
+exports.auth_login = async (req, res) => {
+  const email = req.body.email;
+  const user = { email: email };
+
+  const accessToken = generateAccessToken(user);
+  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET);
+
+  refreshTokens.push(refreshToken);
+
+  res.json({ accessToken: accessToken, refreshToken: refreshToken });
+};
+
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' });
 };
