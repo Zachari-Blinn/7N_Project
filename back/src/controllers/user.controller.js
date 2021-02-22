@@ -9,6 +9,8 @@ exports.user_create = async (req, res) => {
   try {
     const newUser = new User(req.body);
 
+    //todo encrypt password
+
     await newUser.save();
 
     res.status(201).json(newUser);

@@ -7,11 +7,10 @@ const connectDB = async () => {
       useUnifiedTopology: true,
       useFindAndModify: false,
     });
+
   } catch (error) {
     console.error(`Database: ${error}`);
     process.exit(1);
-  } finally {
-    console.log('\x1b[44m%s\x1b[0m', 'Database: connected!');
   }
 };
 
