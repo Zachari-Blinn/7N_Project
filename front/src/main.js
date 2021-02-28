@@ -1,5 +1,4 @@
 import Vue from 'vue';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
@@ -12,8 +11,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 Vue.config.productionTip = false;
 
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
 Vue.use(CKEditor);
 Vue.use(VueAxios, axios);
 

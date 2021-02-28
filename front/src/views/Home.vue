@@ -1,18 +1,18 @@
 <template>
   <div class="home">
     <NavBar/>
-    <HelloWorld/>
+    <Forum/>
   </div>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue';
+import Forum from '@/components/Forum.vue';
 import NavBar from '@/components/partials/NavBar.vue';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld,
+    Forum,
     NavBar,
   },
 };
