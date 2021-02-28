@@ -18,7 +18,7 @@ export default {
 
   data() {
     return {
-      url: "http://localhost:8081/forum",
+      url: "forum",
       data_forum: null,
       errored: null,
       loading: true,
@@ -36,7 +36,7 @@ export default {
         this.errored = true;
       })
       .finally(() => {
-        this.loading = false
+        this.loading = false;
       });
   },
 };
