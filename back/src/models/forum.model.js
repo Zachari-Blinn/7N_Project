@@ -14,9 +14,12 @@ const ForumSchema = new mongoose.Schema({
     required: false,
     ref: 'Category'
   }],
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   isActive: {
     type: Boolean,
-    required: false,
     default: true
   }
 }, {

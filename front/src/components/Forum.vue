@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div v-if="data_forum != null">
-      {{ data_forum }}
+    <div v-if="data_forum">
+      <div v-for="forum in data_forum" :key="forum._id">
+        {{ forum.title }}
+        <!-- contenu -->
+      </div>
     </div>
-    <div v-if="errored != null">
+    <div v-if="errored">
       {{ errored.message }}
     </div>
   </div>
@@ -32,7 +35,9 @@ export default {
         console.log(error);
         this.errored = true;
       })
-      .finally(() => (this.loading = false));
+      .finally(() => {
+        this.loading = false
+      });
   },
 };
 </script>

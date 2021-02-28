@@ -19,9 +19,12 @@ const CategorySchema = new mongoose.Schema({
     required: false,
     ref: 'Topic'
   }],
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   isActive: {
     type: Boolean,
-    required: false,
     default: true
   }
 }, {

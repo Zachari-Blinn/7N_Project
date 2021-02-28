@@ -19,9 +19,12 @@ const TopicSchema = new mongoose.Schema({
     required: false,
     ref: 'Reply'
   }],
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   isActive: {
     type: Boolean,
-    required: false,
     default: true
   }
 }, {

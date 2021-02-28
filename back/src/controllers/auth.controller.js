@@ -43,57 +43,41 @@ exports.auth_register = async (req, res) => {
   }
 }
 
-let refreshTokens = []
-
-/**
- * @description This function take the token as parameter, return accessToken
- * @param {*} req
- * @param {*} res
- */
-exports.auth_token = async (req, res) => {
-  try {
-    const refreshToken = req.body.token
-
-    if (refreshToken == null) throw new Error('Forbiden!')
-
-    if (!refreshTokens.includes(refreshToken)) throw new Error('Forbiden!')
-
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-      if (err) return res.sendStatus(403)
-
-      const accessToken = generateAccessToken({ name: user.name })
-
-      res.json({ accessToken: accessToken })
-    })
-  } catch (error) {
-    console.log(error)
-    res.status(500).send('Error on the server')
-  }
-}
-
-exports.auth_logout = (req, res) => {
-  refreshTokens = refreshTokens.filter(token => token !== req.body.token)
-
-  res.sendStatus(204)
-}
-
 /**
  * @description Login with email and password, return accessToken and refreshToken
  * @param {*} req
  * @param {*} res
  */
 exports.auth_login = async (req, res) => {
-  const email = req.body.email
-  const user = { email: email }
+  try {
+    const { email } = req.body
+    if (!email) throw new Error('Email not provided!')
 
-  const accessToken = generateAccessToken(user)
-  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+    const { password } = req.body
+    if (!password) throw new Error('Password not provided!')
 
-  refreshTokens.push(refreshToken)
+    const user = await User.findOne({
+      email: email,
+      isActive: true
+    })
+      .select({
+        _id: 1,
+        password: 1
+      })
+    if (!user) throw new Error('User not found!')
 
-  res.json({ accessToken: accessToken, refreshToken: refreshToken })
+    const match = await bcrypt.compare(password, user.password)
+    if (!match) throw new Error('Password and Email incorrect!')
+
+    const token = generateAccessToken({ id: user._id })
+
+    res.header('auth-token', token).send({ token: token })
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Error on the server')
+  }
 }
 
 function generateAccessToken (user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' })
 };

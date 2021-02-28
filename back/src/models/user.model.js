@@ -21,9 +21,12 @@ const UserSchema = new mongoose.Schema({
     min: 6,
     max: 1024
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   isActive: {
     type: Boolean,
-    required: false,
     default: true
   }
 }, {
