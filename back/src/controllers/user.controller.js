@@ -1,4 +1,4 @@
-const User = require('../models/user.model');
+const User = require('../models/user.model')
 
 /**
  * @description Create a new user
@@ -7,17 +7,17 @@ const User = require('../models/user.model');
  */
 exports.user_create = async (req, res) => {
   try {
-    const newUser = new User(req.body);
+    const newUser = new User(req.body)
 
-    //todo encrypt password
+    // todo encrypt password
 
-    await newUser.save();
+    await newUser.save()
 
-    res.status(201).json(newUser);
+    res.status(201).json(newUser)
   } catch (error) {
-    res.status(500).json(`Error: ${error}`);
+    res.status(500).json(`Error: ${error}`)
   }
-};
+}
 
 /**
  * @description Find one user with id
@@ -26,15 +26,15 @@ exports.user_create = async (req, res) => {
  */
 exports.user_findOne = async (req, res) => {
   try {
-    const user = await User.findOne({ _id: req.params.id });
+    const user = await User.findOne({ _id: req.params.id })
 
-    if (!user) throw new Error('User not found!');
+    if (!user) throw new Error('User not found!')
 
-    res.status(200).json(user);
+    res.status(200).json(user)
   } catch (error) {
-    res.status(500).json(`Error: ${error}`);
+    res.status(500).json(`Error: ${error}`)
   }
-};
+}
 
 /**
  * @description Find all user
@@ -42,15 +42,15 @@ exports.user_findOne = async (req, res) => {
  */
 exports.user_find = async (req, res) => {
   try {
-    const user = await User.find();
+    const user = await User.find()
 
-    if (!user) throw new Error('There are no users!');
+    if (!user) throw new Error('There are no users!')
 
-    res.status(200).json(user);
+    res.status(200).json(user)
   } catch (error) {
-    res.status(500).json(`Error: ${error}`);
+    res.status(500).json(`Error: ${error}`)
   }
-};
+}
 
 /**
  * @description Update selected user with id
@@ -60,16 +60,16 @@ exports.user_find = async (req, res) => {
 exports.user_update = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate({ _id: req.params.id }, {
-      $set: req.body,
-    });
+      $set: req.body
+    })
 
-    if (!user) throw new Error('User not found!');
+    if (!user) throw new Error('User not found!')
 
-    res.status(200).json(user);
+    res.status(200).json(user)
   } catch (error) {
-    res.status(500).json(`Error: ${error}`);
+    res.status(500).json(`Error: ${error}`)
   }
-};
+}
 
 /**
  * @description Delete selected user with id
@@ -78,22 +78,22 @@ exports.user_update = async (req, res) => {
  */
 exports.user_delete = async (req, res) => {
   try {
-    const user = await User.findOneAndDelete({ _id: req.params.id });
+    const user = await User.findOneAndDelete({ _id: req.params.id })
 
-    if (!user) throw new Error('User not found!');
+    if (!user) throw new Error('User not found!')
 
-    res.status(200).json(user);
+    res.status(200).json(user)
   } catch (error) {
-    res.status(500).json(`Error: ${error}`);
+    res.status(500).json(`Error: ${error}`)
   }
-};
+}
 
 exports.user_me = async (req, res) => {
   try {
-    const user = await User.findOne({_id: req.user.id});
+    const user = await User.findOne({ _id: req.user.id })
 
-    res.json(user);
+    res.json(user)
   } catch (error) {
-    res.send({ message: "Error in Fetching user" });
+    res.send({ message: 'Error in Fetching user' })
   }
-};
+}

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const InitiateMongoServer = async () => {
   try {
@@ -6,13 +6,13 @@ const InitiateMongoServer = async () => {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false,
-    });
-    console.error(`Database: connected!`);
+      useFindAndModify: false
+    })
+    console.error('Database: connected!')
   } catch (error) {
-    console.error(`Database: ${error}`);
-    process.exit(1);
+    console.error(`Database: ${error}`)
+    process.exit(1)
   }
-};
+}
 
-module.exports = InitiateMongoServer;
+module.exports = InitiateMongoServer

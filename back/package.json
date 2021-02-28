@@ -6,7 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production DB_URI=mongodb://localhost:27017/7n_project-production node server",
     "dev": "cross-env NODE_ENV=development DB_URI=mongodb://localhost:27017/7n_project-development nodemon server",
-    "test": "cross-env NODE_ENV=test DB_URI=mongodb://localhost:27017/7n_project-test mocha test/ test/controllers/"
+    "test": "cross-env NODE_ENV=test DB_URI=mongodb://localhost:27017/7n_project-test mocha test/ test/controllers/",
+    "format": "npx standard --fix"
   },
   "author": "Zachari Blinn",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.6.1",
+    "helmet": "4.4.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.13",
     "mongoose-morgan": "^1.0.17",
@@ -32,6 +34,7 @@
     "mocha": "^8.3.0",
     "nodemon": "^2.0.6",
     "request": "^2.88.2",
+    "standard": "16.0.3",
     "supertest": "^6.1.3"
   }
 }

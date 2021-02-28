@@ -1,31 +1,31 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const CategorySchema = new mongoose.Schema({
   forum: {
     type: mongoose.Schema.Types.ObjectId,
     required: 'Forum is required!',
-    ref: 'Forum',
+    ref: 'Forum'
   },
   title: {
     type: String,
-    required: 'Title is required!',
+    required: 'Title is required!'
   },
   description: {
     type: String,
-    required: false,
+    required: false
   },
   topics: [{
     type: mongoose.Schema.Types.ObjectId,
     required: false,
-    ref: 'Topic',
+    ref: 'Topic'
   }],
   isActive: {
     type: Boolean,
     required: false,
-    default: true,
-  },
+    default: true
+  }
 }, {
-  timestamps: true,
-});
+  timestamps: true
+})
 
-module.exports = mongoose.model('Category', CategorySchema);
+module.exports = mongoose.model('Category', CategorySchema)
