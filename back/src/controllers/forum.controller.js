@@ -40,7 +40,7 @@ exports.forum_findOne = async (req, res) => {
  */
 exports.forum_find = async (req, res) => {
   try {
-    const forum = await Forum.find()
+    const forum = await Forum.find().populate('categories')
 
     if (!forum) throw new Error('There are no forum!')
 

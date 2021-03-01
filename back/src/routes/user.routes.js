@@ -1,5 +1,5 @@
 const express = require('express')
-const checkAuth = require('../security/token.security')
+const checkAuth = require('../middlewares/security/token.security')
 const router = express.Router()
 
 const UserController = require('../controllers/user.controller')
