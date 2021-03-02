@@ -5,21 +5,16 @@ const User = require('../models/user.model')
 exports.category_create = async (req, res) => {
   try {
     const { forumId, title, description } = req.body
-    if (!forumId) throw 'Forum not provided!'
-    if (!title) throw 'Title not provided!'
-    if (!description) throw 'Description not provided!'
-
     const currentUserId = req.user.id
-    if (!currentUserId) throw 'currentUserId not provided!'
 
     // get current user
-    const currentUser = await User.findById(currentUserId)
+    const currentUser = await User.findOne({_id: currentUserId})
     console.log(currentUserId)
 
     if (!currentUser) throw 'User not found!'
 
     // get forum provided
-    const forum = await Forum.findById(forumId)
+    const forum = await Forum.findOne({_id: forumId})
     if (!forum) throw 'Forum not found!'
 
     const newCategory = new Category({

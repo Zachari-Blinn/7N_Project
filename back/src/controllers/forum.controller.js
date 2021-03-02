@@ -1,4 +1,5 @@
 const Forum = require('../models/forum.model')
+const User = require('../models/user.model')
 
 /**
  * @description Create a new Forum
@@ -7,7 +8,16 @@ const Forum = require('../models/forum.model')
  */
 exports.forum_create = async (req, res) => {
   try {
-    const newForum = new Forum(req.body)
+    const { title, description } = req.body
+    const currentUserId = req.user.id
+    const currentUser = await User.findOne({ _id: currentUserId })
+
+    const newForum = new Forum({
+      title: title,
+      description: description,
+      createdBy: currentUser,
+      isActive: true
+    })
 
     await newForum.save()
 
