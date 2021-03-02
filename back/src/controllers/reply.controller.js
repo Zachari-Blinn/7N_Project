@@ -6,7 +6,7 @@ const Reply = require('../models/reply.model')
 exports.reply_create = async (req, res) => {
   try {
     const { topicId, content } = req.body
-    
+
     const currentUserId = req.user.id
     if (!currentUserId) throw 'currentUserId not provided!'
     console.log(currentUserId)

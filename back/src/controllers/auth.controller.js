@@ -96,26 +96,25 @@ exports.auth_reset_password = async (req, res) => {
     const token = generateAccessToken({ id: user._id }, '1h')
 
     // todo
-    const emailService = new EmailService();
+    const emailService = new EmailService()
 
-    console.log(process.env.EMAIL_NOREPLY);
+    console.log(process.env.EMAIL_NOREPLY)
 
     const message = {
       from: process.env.EMAIL_NOREPLY, // Sender address
-      to: email,         // List of recipients
+      to: email, // List of recipients
       subject: 'Reset password', // Subject line
       text: 'Test send token:' + token // Plain text body
-    };
+    }
 
-    await emailService.sendEmail(message);
+    await emailService.sendEmail(message)
 
-    res.status(200).json('yes');
-
+    res.status(200).json('yes')
   } catch (error) {
     res.status(500).json(`Error: ${error}`)
   }
 }
 
-function generateAccessToken(user, expiresIn) {
+function generateAccessToken (user, expiresIn) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn })
 };

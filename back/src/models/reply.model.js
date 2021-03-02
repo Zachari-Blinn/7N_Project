@@ -23,4 +23,3 @@ const ReplySchema = new mongoose.Schema({
 })
 
 module.exports = mongoose.model('Reply', ReplySchema)
-

@@ -54,11 +54,11 @@ exports.forum_find = async (req, res) => {
           model: 'Reply',
           match: { isActive: true },
           sort: { createdAt: -1 },
-          limit: 1,
+          limit: 1
         }
       }
     }).exec()
-    //todo count all topics, comments and get last comments
+    // todo count all topics, comments and get last comments
 
     console.log(forum)
 
@@ -110,52 +110,47 @@ exports.forum_delete = async (req, res) => {
 exports.forum_test = async (req, res) => {
   try {
     const forum = await Forum.aggregate([
+      { $match: { isActive: true } },
       {
-        '$match': { 'isActive': true }
-      }, {
-        '$lookup': {
-          'from': 'categories',
-          'let': { "categories": "$categories" },
-          'pipeline': [
-            { "$match": { "$expr": { "$in": [ "$_id", "$$categories" ] } } },
+        $lookup: {
+          from: 'categories',
+          let: { categories: '$categories' },
+          pipeline: [
+            { $match: { $expr: { $in: ['$_id', '$$categories'] } } },
+            { $match: { isActive: true } },
             {
-              '$match': { 'isActive': true }
-            },
-            {
-              '$lookup': {
-                'from': 'topics',
-                'let': { "topics": "$topics" },
-                'pipeline': [
-                  { "$match": { "$expr": { "$in": [ "$_id", "$$topics" ] } } },
+              $lookup: {
+                from: 'topics',
+                let: { topics: '$topics' },
+                pipeline: [
+                  { $match: { $expr: { $in: ['$_id', '$$topics'] } } },
+                  { $match: { isActive: true } },
+                  { $sort: { createdAt: -1 } },
+                  { $limit: 1 },
                   {
-                    '$match': { 'isActive': true }
-                  }, {
-                    '$lookup': {
-                      'from': 'replies',
-                      'let': { "replies": "$replies" },
-                      'pipeline': [
-                        { "$match": { "$expr": { "$in": [ "$_id", "$$replies" ] } } },
-                        {
-                          '$match': { 'isActive': true }
-                        }, {
-                          '$group': {
-                            '_id': null,
-                            'last': { $last: "$$ROOT" }
-                          }
-                        }
+                    $lookup: {
+                      from: 'replies',
+                      let: { replies: '$replies' },
+                      pipeline: [
+                        { $match: { $expr: { $in: ['$_id', '$$replies'] } } },
+                        { $match: { isActive: true } },
+                        { $sort: { createdAt: -1 } },
+                        { $limit: 1 }
                       ],
-                      'as': 'replies'
+                      as: 'replies'
                     }
                   }
                 ],
-                'as': 'topics'
+                as: 'topics'
               }
-            }, 
+            }
           ],
-          'as': 'categories'
-        },
-      },
-    ]);
+          as: 'categories'
+        }
+      }
+    ])
+
+    // todo count & select
 
     console.log(forum)
 

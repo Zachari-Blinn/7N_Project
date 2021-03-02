@@ -12,5 +12,4 @@ router.get('/:id', ForumController.forum_findOne)
 router.put('/:id', ForumController.forum_update)
 router.delete('/:id', ForumController.forum_delete)
 
-
 module.exports = router

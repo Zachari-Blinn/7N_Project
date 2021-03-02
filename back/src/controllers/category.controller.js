@@ -15,7 +15,7 @@ exports.category_create = async (req, res) => {
     // get current user
     const currentUser = await User.findById(currentUserId)
     console.log(currentUserId)
-    
+
     if (!currentUser) throw 'User not found!'
 
     // get forum provided
