@@ -50,24 +50,51 @@ exports.forum_findOne = async (req, res) => {
  */
 exports.forum_find = async (req, res) => {
   try {
-    const forum = await Forum.find({ isActive: true }).populate({
-      path: 'categories',
-      model: 'Category',
-      match: { isActive: true },
-      populate: {
-        path: 'topics',
-        model: 'Topic',
-        match: { isActive: true },
-        select: { _id: 1 },
-        populate: {
-          path: 'replies',
-          model: 'Reply',
-          match: { isActive: true },
-          sort: { createdAt: -1 },
-          limit: 1
+    const forum = await Forum.aggregate([
+      { $match: { isActive: true } },
+      {
+        $lookup: {
+          from: 'categories',
+          let: { categories: '$categories' },
+          pipeline: [
+            { $match: { $expr: { $in: ['$_id', '$$categories'] } } },
+            { $match: { isActive: true } },
+            {
+              $addFields: {
+                total_topics: { $size: "$topics" },
+              }
+            },
+            {
+              $lookup: {
+                from: 'topics',
+                let: { topics: '$topics' },
+                pipeline: [
+                  { $match: { $expr: { $in: ['$_id', '$$topics'] } } },
+                  { $match: { isActive: true } },
+                  { $sort: { createdAt: -1 } },
+                  { $limit: 1 },
+                  {
+                    $lookup: {
+                      from: 'replies',
+                      let: { replies: '$replies' },
+                      pipeline: [
+                        { $match: { $expr: { $in: ['$_id', '$$replies'] } } },
+                        { $match: { isActive: true } },
+                        { $sort: { createdAt: -1 } },
+                        { $limit: 1 }
+                      ],
+                      as: 'replies'
+                    }
+                  }
+                ],
+                as: 'topics'
+              }
+            }
+          ],
+          as: 'categories'
         }
       }
-    }).exec()
+    ])
     // todo count all topics, comments and get last comments
 
     console.log(forum)
