@@ -4,9 +4,12 @@ const router = express.Router()
 
 const ForumController = require('../controllers/forum.controller')
 
+const attachCurrentUser  = require('../middlewares/security/attachCurrentUser.security');
+
+
 router.get('/test', ForumController.forum_test)
 
-router.post('/', checkAuth, ForumController.forum_create)
+router.post('/', checkAuth, attachCurrentUser, ForumController.forum_create)
 router.get('/', ForumController.forum_find)
 router.get('/:id', ForumController.forum_findOne)
 router.put('/:id', ForumController.forum_update)
