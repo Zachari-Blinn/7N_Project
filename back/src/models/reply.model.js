@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const ForumSchema = new mongoose.Schema({
+const ReplySchema = new mongoose.Schema({
   topic: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
@@ -22,4 +22,5 @@ const ForumSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('Forum', ForumSchema)
+module.exports = mongoose.model('Reply', ReplySchema)
+

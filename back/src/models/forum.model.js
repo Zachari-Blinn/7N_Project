@@ -11,7 +11,6 @@ const ForumSchema = new mongoose.Schema({
   },
   categories: [{
     type: mongoose.Schema.Types.ObjectId,
-    required: false,
     ref: 'Category'
   }],
   createdBy: {

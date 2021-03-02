@@ -40,7 +40,27 @@ exports.forum_findOne = async (req, res) => {
  */
 exports.forum_find = async (req, res) => {
   try {
-    const forum = await Forum.find().populate('categories')
+    const forum = await Forum.find({ isActive: true }).populate({
+      path: 'categories',
+      model: 'Category',
+      match: { isActive: true },
+      populate: {
+        path: 'topics',
+        model: 'Topic',
+        match: { isActive: true },
+        select: { _id: 1 },
+        populate: {
+          path: 'replies',
+          model: 'Reply',
+          match: { isActive: true },
+          sort: { createdAt: -1 },
+          limit: 1,
+        }
+      }
+    }).exec()
+    //todo count all topics, comments and get last comments
+
+    console.log(forum)
 
     if (!forum) throw new Error('There are no forum!')
 
@@ -80,6 +100,64 @@ exports.forum_delete = async (req, res) => {
     const forum = await Forum.findOneAndDelete({ _id: req.params.id })
 
     if (!forum) throw new Error('Forum not found!')
+
+    res.status(200).json(forum)
+  } catch (error) {
+    res.status(500).json(`Error: ${error}`)
+  }
+}
+
+exports.forum_test = async (req, res) => {
+  try {
+    const forum = await Forum.aggregate([
+      {
+        '$match': { 'isActive': true }
+      }, {
+        '$lookup': {
+          'from': 'categories',
+          'let': { "categories": "$categories" },
+          'pipeline': [
+            { "$match": { "$expr": { "$in": [ "$_id", "$$categories" ] } } },
+            {
+              '$match': { 'isActive': true }
+            },
+            {
+              '$lookup': {
+                'from': 'topics',
+                'let': { "topics": "$topics" },
+                'pipeline': [
+                  { "$match": { "$expr": { "$in": [ "$_id", "$$topics" ] } } },
+                  {
+                    '$match': { 'isActive': true }
+                  }, {
+                    '$lookup': {
+                      'from': 'replies',
+                      'let': { "replies": "$replies" },
+                      'pipeline': [
+                        { "$match": { "$expr": { "$in": [ "$_id", "$$replies" ] } } },
+                        {
+                          '$match': { 'isActive': true }
+                        }, {
+                          '$group': {
+                            '_id': null,
+                            'last': { $last: "$$ROOT" }
+                          }
+                        }
+                      ],
+                      'as': 'replies'
+                    }
+                  }
+                ],
+                'as': 'topics'
+              }
+            }, 
+          ],
+          'as': 'categories'
+        },
+      },
+    ]);
+
+    console.log(forum)
 
     res.status(200).json(forum)
   } catch (error) {

@@ -16,7 +16,6 @@ const TopicSchema = new mongoose.Schema({
   },
   replies: [{
     type: mongoose.Schema.Types.ObjectId,
-    required: false,
     ref: 'Reply'
   }],
   createdBy: {

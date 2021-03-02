@@ -16,7 +16,6 @@ const CategorySchema = new mongoose.Schema({
   },
   topics: [{
     type: mongoose.Schema.Types.ObjectId,
-    required: false,
     ref: 'Topic'
   }],
   createdBy: {
