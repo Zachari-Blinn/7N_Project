@@ -156,6 +156,11 @@ exports.forum_test = async (req, res) => {
             { $match: { $expr: { $in: ['$_id', '$$categories'] } } },
             { $match: { isActive: true } },
             {
+              $addFields: {
+                total_topics: { $size: "$topics" },
+              }
+            },
+            {
               $lookup: {
                 from: 'topics',
                 let: { topics: '$topics' },
