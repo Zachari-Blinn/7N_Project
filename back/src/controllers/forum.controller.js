@@ -57,7 +57,7 @@ exports.forum_find = async (req, res) => {
             { $match: { isActive: true } },
             {
               $addFields: {
-                total_topics: { $size: "$topics" },
+                total_topics: { $size: '$topics' }
               }
             },
             {

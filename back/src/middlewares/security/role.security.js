@@ -1,9 +1,7 @@
 module.exports = (...permittedRoles) => (req, res, next) => {
-  const { user } = req
-
-  if (user && permittedRoles.includes(user.role)) {
+  if (req.currentUser && permittedRoles.includes(req.currentUser.role)) {
     next()
   } else {
-    res.status(403).json({ message: 'Forbidden' })
+    res.status(401).json({ message: 'Action not allowed' })
   }
 }

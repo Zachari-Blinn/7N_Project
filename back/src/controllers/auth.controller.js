@@ -5,9 +5,9 @@ const User = require('../models/user.model')
 const EmailService = require('../services/email.service')
 
 /**
+ * @route POST /auth/register
  * @description Register new user with email and password as parameter
- * @param {*} req
- * @param {*} res
+ * @access Public
  */
 exports.auth_register = async (req, res) => {
   try {
@@ -46,9 +46,9 @@ exports.auth_register = async (req, res) => {
 }
 
 /**
+ * @route POST /auth/login
  * @description Login with email and password, return accessToken and refreshToken
- * @param {*} req
- * @param {*} res
+ * @access Public
  */
 exports.auth_login = async (req, res) => {
   try {

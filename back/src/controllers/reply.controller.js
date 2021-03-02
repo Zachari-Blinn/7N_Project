@@ -7,20 +7,12 @@ exports.reply_create = async (req, res) => {
   try {
     const { topicId, content } = req.body
 
-    const currentUserId = req.user.id
-    if (!currentUserId) throw 'currentUserId not provided!'
-    console.log(currentUserId)
-
-    const currentUser = await User.findById(currentUserId)
-    console.log(currentUser)
-    if (!currentUser) throw 'User not found!'
-
     const topic = await Topic.findById(topicId)
 
     const newReply = new Reply({
       topic: topic,
       content: content,
-      createdBy: currentUser,
+      createdBy: req.currentUser,
       isActive: true
     })
 
