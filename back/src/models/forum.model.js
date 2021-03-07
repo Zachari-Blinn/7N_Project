@@ -25,4 +25,24 @@ const ForumSchema = new mongoose.Schema({
   timestamps: true
 })
 
+ForumSchema.pre('deleteOne', { document: false, query: true }, (next) => {
+  console.log("remove child");
+  this.model('Category').deleteMany({ forum: this._id }, next);
+});
+
+ForumSchema.pre('deleteMany', { document: false, query: true }, (next) => {
+  console.log("remove child");
+  this.model('Category').deleteMany({ forum: this._id }, next);
+});
+
+ForumSchema.pre('remove', { document: false, query: true }, (next) => {
+  console.log("remove child");
+  this.model('Category').deleteMany({ forum: this._id }, next);
+});
+
+ForumSchema.pre('delete', { document: false, query: true }, (next) => {
+  console.log("remove child");
+  this.model('Category').deleteMany({ forum: this._id }, next);
+});
+
 module.exports = mongoose.model('Forum', ForumSchema)

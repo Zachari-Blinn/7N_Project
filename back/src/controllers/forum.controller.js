@@ -1,5 +1,5 @@
 const Forum = require('../models/forum.model')
-const User = require('../models/user.model')
+const Category = require('../models/category.model')
 
 /**
  * @description Create a new Forum
@@ -130,11 +130,13 @@ exports.forum_update = async (req, res) => {
 exports.forum_delete = async (req, res) => {
   try {
     // todo verification et suppression en cascase si enfant
-    const forum = await Forum.findOneAndDelete({ _id: req.params.id })
+    const forum = await Forum.findOneAndDelete({ _id: req.params.id }, (err, forum) => {
+      Category.deleteMany({ forum: forum._id });
 
-    if (!forum) throw new Error('Forum not found!')
+      res.status(200).json(forum)
+    })
 
-    res.status(200).json(forum)
+
   } catch (error) {
     res.status(500).json(`Error: ${error}`)
   }

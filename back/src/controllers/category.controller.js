@@ -1,6 +1,5 @@
 const Category = require('../models/category.model')
 const Forum = require('../models/forum.model')
-const User = require('../models/user.model')
 
 /**
  * @route POST /category/
@@ -11,9 +10,8 @@ exports.category_create = async (req, res) => {
   try {
     const { forumId, title, description } = req.body
 
-    // get forum provided
     const forum = await Forum.findOne({ _id: forumId })
-    if (!forum) throw 'Forum not found!'
+    if (!forum) throw new Error('Forum not found!')
 
     const newCategory = new Category({
       forum: forum,
@@ -23,13 +21,16 @@ exports.category_create = async (req, res) => {
       isActive: true
     })
 
-    // provide category at forum
     forum.categories.push(newCategory)
-    await forum.save()
 
-    await newCategory.save()
+    forum.save()
 
-    res.status(201).json(newCategory)
+    newCategory.save(function (err, category){
+      if (err) return console.error(err);
+
+      res.status(201).json(category)
+    })
+
   } catch (error) {
     res.status(500).json(`Error: ${error}`)
   }

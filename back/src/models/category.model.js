@@ -30,4 +30,8 @@ const CategorySchema = new mongoose.Schema({
   timestamps: true
 })
 
+CategorySchema.pre('remove', (next) => {
+  this.model('Topic').deleteMany({ category: this._id }, next);
+});
+
 module.exports = mongoose.model('Category', CategorySchema)

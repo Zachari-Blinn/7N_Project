@@ -1,6 +1,9 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require("mongoose");
+const { hash, compare } = require('bcrypt')
+const { sign } = require('jsonwebtoken')
 
-const UserSchema = new mongoose.Schema({
+
+const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
@@ -22,8 +25,12 @@ const UserSchema = new mongoose.Schema({
     max: 1024
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
+  },
+  verified: {
+    type: Boolean,
+    default: false,
   },
   isActive: {
     type: Boolean,
@@ -33,4 +40,24 @@ const UserSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('User', UserSchema)
+UserSchema.pre("save", async function (next) {
+  let user = this;
+  if (!user.isModified("password")) return next();
+  user.password = await hash(user.password, 10);
+  console.log(user.password)
+  next();
+});
+
+UserSchema.methods.comparePassword = async function (password) {
+  return await compare(password, this.password);
+};
+
+UserSchema.methods.generateAccessToken = async function (expiresIn) {
+  let payload = {
+    id: this._id,
+  };
+  return await sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn });
+};
+
+const User = model("user", UserSchema);
+module.exports = User;

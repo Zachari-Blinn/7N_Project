@@ -10,9 +10,11 @@
 
         <thead>
           <tr>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th>title</th>
+            <th>description</th>
+            <th>topics</th>
+            <th>comments</th>
+            <th>last comment</th>
           </tr>
         </thead>
 
@@ -27,6 +29,14 @@
                   : 0
               }}
             </td>
+            <td>
+              {{
+                category.topics.replies && category.topics.replies.length
+                  ? category.topics.replies.length
+                  : 0
+              }}
+            </td>
+            <td></td>
           </tr>
         </tbody>
       </table>

@@ -1,13 +1,12 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const User = require('../models/user.model')
 
 const EmailService = require('../services/email.service')
 
 /**
- * @route POST /auth/register
  * @description Register new user with email and password as parameter
- * @access Public
+ * @api /auth/register
+ * @access PUBLIC
+ * @type POST
  */
 exports.auth_register = async (req, res) => {
   try {
@@ -15,25 +14,22 @@ exports.auth_register = async (req, res) => {
       if (err) throw new Error(err)
 
       if (!user) {
-        await bcrypt.hash(req.body.password, 10, (_err, cryptedPassword) => {
-          req.body.password = cryptedPassword
-          req.body.role = 'user'
-          req.body.isActive = true
+        req.body.role = 'user'
+        req.body.isActive = true
 
-          User.create(req.body).then(
-            (user) => {
-              res.status(201).json({
-                user
-              })
-            }
-          ).catch(
-            (error) => {
-              res.status(500).json({
-                error
-              })
-            }
-          )
-        })
+        User.create(req.body).then(
+          (user) => {
+            res.status(201).json({
+              user
+            })
+          }
+        ).catch(
+          (error) => {
+            res.status(500).json({
+              error
+            })
+          }
+        )
       } else {
         return res.status(400).json({
           error: 'User already existing'
@@ -46,9 +42,10 @@ exports.auth_register = async (req, res) => {
 }
 
 /**
- * @route POST /auth/login
  * @description Login with email and password, return accessToken and refreshToken
+ * @route POST /auth/login
  * @access Public
+ * @type POST
  */
 exports.auth_login = async (req, res) => {
   try {
@@ -68,10 +65,14 @@ exports.auth_login = async (req, res) => {
       })
     if (!user) throw new Error('User not found!')
 
-    const match = await bcrypt.compare(password, user.password)
-    if (!match) throw new Error('Password and Email incorrect!')
+    if(!(await user.comparePassword(password))){
+      return res.status(401).json({
+        success: false,
+        message: "Incorrect password.",
+      });
+    }
 
-    const token = generateAccessToken({ id: user._id }, '24h')
+    const token = await user.generateAccessToken('24h')
 
     res.header('auth-token', token).send({ token: token })
   } catch (error) {
@@ -79,6 +80,18 @@ exports.auth_login = async (req, res) => {
     res.status(500).json(`Error: ${error}`)
   }
 }
+
+/**
+ * @description To get the authenticated user's profile
+ * @api /auth/me
+ * @access Private
+ * @type GET
+ */
+exports.auth_me = async (req, res) => {
+  return res.status(200).json({
+    user: req.currentUser,
+  });
+};
 
 exports.auth_reset_password = async (req, res) => {
   try {
@@ -93,7 +106,7 @@ exports.auth_reset_password = async (req, res) => {
     if (!user) res.status(404).json('No user with that email')
 
     // generate new token
-    const token = generateAccessToken({ id: user._id }, '1h')
+    const token = await user.generateAccessToken('1h')
 
     // todo
     const emailService = new EmailService()
@@ -114,7 +127,3 @@ exports.auth_reset_password = async (req, res) => {
     res.status(500).json(`Error: ${error}`)
   }
 }
-
-function generateAccessToken (user, expiresIn) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn })
-};

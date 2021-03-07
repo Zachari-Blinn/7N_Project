@@ -30,4 +30,8 @@ const TopicSchema = new mongoose.Schema({
   timestamps: true
 })
 
+TopicSchema.pre('remove', (next) => {
+  this.model('Reply').deleteMany({ topic: this._id }, next);
+});
+
 module.exports = mongoose.model('Topic', TopicSchema)
