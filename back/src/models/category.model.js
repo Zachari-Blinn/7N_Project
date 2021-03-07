@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require("mongoose");
 
-const CategorySchema = new mongoose.Schema({
+const CategorySchema = new Schema({
   forum: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     required: 'Forum is required!',
     ref: 'Forum'
   },
@@ -15,11 +15,11 @@ const CategorySchema = new mongoose.Schema({
     required: false
   },
   topics: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Topic'
   }],
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   isActive: {
@@ -30,8 +30,4 @@ const CategorySchema = new mongoose.Schema({
   timestamps: true
 })
 
-CategorySchema.pre('remove', (next) => {
-  this.model('Topic').deleteMany({ category: this._id }, next);
-});
-
-module.exports = mongoose.model('Category', CategorySchema)
+module.exports = model('Category', CategorySchema)

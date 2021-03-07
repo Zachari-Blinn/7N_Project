@@ -7,31 +7,26 @@ const Forum = require('../models/forum.model')
  * @access Authenticated
  */
 exports.category_create = async (req, res) => {
-  try {
-    const { forumId, title, description } = req.body
+  const { forumId, title, description } = req.body
 
-    const forum = await Forum.findOne({ _id: forumId })
-    if (!forum) throw new Error('Forum not found!')
+  const forum = await Forum.findOne({ _id: forumId })
+  if (!forum) throw new Error('Forum not found!')
 
-    const newCategory = new Category({
-      forum: forum,
-      title: title,
-      description: description,
-      createdBy: req.currentUser,
-      isActive: true
-    })
+  const newCategory = new Category({
+    forum: forum,
+    title: title,
+    description: description,
+    createdBy: req.currentUser,
+    isActive: true
+  })
 
-    forum.categories.push(newCategory)
+  forum.categories.push(newCategory)
 
-    forum.save()
+  forum.save()
 
-    newCategory.save(function (err, category){
-      if (err) return console.error(err);
+  newCategory.save(function (err, category){
+    if (err) return console.error(err);
 
-      res.status(201).json(category)
-    })
-
-  } catch (error) {
-    res.status(500).json(`Error: ${error}`)
-  }
+    res.status(201).json(category)
+  })
 }

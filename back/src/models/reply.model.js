@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require("mongoose");
 
-const ReplySchema = new mongoose.Schema({
+const ReplySchema = new Schema({
   topic: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     required: true,
     ref: 'Topic'
   },
@@ -11,7 +11,7 @@ const ReplySchema = new mongoose.Schema({
     required: true
   },
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   isActive: {
@@ -22,4 +22,4 @@ const ReplySchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('Reply', ReplySchema)
+module.exports = model('Reply', ReplySchema)

@@ -2,7 +2,6 @@ const { Schema, model } = require("mongoose");
 const { hash, compare } = require('bcrypt')
 const { sign } = require('jsonwebtoken')
 
-
 const UserSchema = new Schema({
   username: {
     type: String,
@@ -48,10 +47,18 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
+/**
+ * @param password
+ * @returns {Promise<*>}
+ */
 UserSchema.methods.comparePassword = async function (password) {
   return await compare(password, this.password);
 };
 
+/**
+ * @param expiresIn
+ * @returns {Promise<*>}
+ */
 UserSchema.methods.generateAccessToken = async function (expiresIn) {
   let payload = {
     id: this._id,
@@ -59,5 +66,5 @@ UserSchema.methods.generateAccessToken = async function (expiresIn) {
   return await sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn });
 };
 
-const User = model("user", UserSchema);
-module.exports = User;
+module.exports = model("user", UserSchema);
+

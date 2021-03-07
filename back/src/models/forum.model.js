@@ -1,6 +1,7 @@
-const mongoose = require('mongoose')
+const { Schema, model } = require("mongoose");
+const Category = require('../models/category.model')
 
-const ForumSchema = new mongoose.Schema({
+const ForumSchema = new Schema({
   title: {
     type: String,
     required: 'Title is required!'
@@ -10,11 +11,11 @@ const ForumSchema = new mongoose.Schema({
     required: false
   },
   categories: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Category'
   }],
   createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User'
   },
   isActive: {
@@ -25,24 +26,10 @@ const ForumSchema = new mongoose.Schema({
   timestamps: true
 })
 
-ForumSchema.pre('deleteOne', { document: false, query: true }, (next) => {
-  console.log("remove child");
-  this.model('Category').deleteMany({ forum: this._id }, next);
+ForumSchema.pre("findOneAndDelete", { document: true, query: false }, async function () {
+  const docToDelete = await this.model.findOne(this.getQuery());
+  await Category.deleteMany({ forum: docToDelete });
+  console.log(docToDelete)
 });
 
-ForumSchema.pre('deleteMany', { document: false, query: true }, (next) => {
-  console.log("remove child");
-  this.model('Category').deleteMany({ forum: this._id }, next);
-});
-
-ForumSchema.pre('remove', { document: false, query: true }, (next) => {
-  console.log("remove child");
-  this.model('Category').deleteMany({ forum: this._id }, next);
-});
-
-ForumSchema.pre('delete', { document: false, query: true }, (next) => {
-  console.log("remove child");
-  this.model('Category').deleteMany({ forum: this._id }, next);
-});
-
-module.exports = mongoose.model('Forum', ForumSchema)
+module.exports = model('Forum', ForumSchema)
