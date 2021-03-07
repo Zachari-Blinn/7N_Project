@@ -1,8 +1,10 @@
 const Forum = require('../models/forum.model')
-const Category = require('../models/category.model')
 
 /**
  * @description Create a new Forum
+ * @api /api/forum
+ * @access PRIVATE
+ * @type POST
  */
 exports.forum_create = async (req, res) => {
   try {
@@ -23,6 +25,9 @@ exports.forum_create = async (req, res) => {
 
 /**
  * @description Find one forum by id
+ * @api /api/forum/:id
+ * @access PUBLIC
+ * @type GET
  */
 exports.forum_findOne = async (req, res) => {
   try {
@@ -38,6 +43,9 @@ exports.forum_findOne = async (req, res) => {
 
 /**
  * @description Find all forum
+ * @api /api/forum
+ * @access PUBLIC
+ * @type GET
  */
 exports.forum_find = async (req, res) => {
   try {
@@ -100,6 +108,9 @@ exports.forum_find = async (req, res) => {
 
 /**
  * @description Update selected forum with id
+ * @api /api/forum/:id
+ * @access PRIVATE
+ * @type PUT
  */
 exports.forum_update = async (req, res) => {
   try {
@@ -117,6 +128,9 @@ exports.forum_update = async (req, res) => {
 
 /**
  * @description Delete selected forum with id
+ * @api /api/forum/:id
+ * @access PRIVATE
+ * @type DELETE
  */
 exports.forum_delete = async (req, res) => {
     Forum.findOneAndDelete({ _id: req.params.id }, (err, forum) => {

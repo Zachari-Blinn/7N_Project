@@ -2,14 +2,13 @@ const User = require('../models/user.model')
 
 /**
  * @description Create a new user
- * @param {Email, password} req.body
- * @param {User} res
+ * @api /api/user
+ * @access PRIVATE
+ * @type POST
  */
 exports.user_create = async (req, res) => {
   try {
     const newUser = new User(req.body)
-
-    // todo encrypt password
 
     await newUser.save()
 
@@ -21,8 +20,9 @@ exports.user_create = async (req, res) => {
 
 /**
  * @description Find one user with id
- * @param {id} req.params
- * @param {User} res
+ * @api /api/user/:id
+ * @access PRIVATE
+ * @type GET
  */
 exports.user_findOne = async (req, res) => {
   try {
@@ -38,7 +38,9 @@ exports.user_findOne = async (req, res) => {
 
 /**
  * @description Find all user
- * @param {User} res
+ * @api /api/user
+ * @access PRIVATE
+ * @type POST
  */
 exports.user_find = async (req, res) => {
   try {
@@ -54,8 +56,9 @@ exports.user_find = async (req, res) => {
 
 /**
  * @description Update selected user with id
- * @param {id} req.params
- * @param {User} res
+ * @api /api/user/:id
+ * @access PRIVATE
+ * @type PUT
  */
 exports.user_update = async (req, res) => {
   try {
@@ -73,8 +76,9 @@ exports.user_update = async (req, res) => {
 
 /**
  * @description Delete selected user with id
- * @param {id} req.params
- * @param {User} res
+ * @api /api/user/:id
+ * @access PRIVATE
+ * @type DELETE
  */
 exports.user_delete = async (req, res) => {
   try {
@@ -85,13 +89,5 @@ exports.user_delete = async (req, res) => {
     res.status(200).json(user)
   } catch (error) {
     res.status(500).json(`Error: ${error}`)
-  }
-}
-
-exports.user_me = async (req, res) => {
-  try {
-    res.json(req.currentUser)
-  } catch (error) {
-    res.send({ message: 'Error in Fetching user' })
   }
 }

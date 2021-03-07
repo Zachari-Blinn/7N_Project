@@ -67,4 +67,3 @@ UserSchema.methods.generateAccessToken = async function (expiresIn) {
 };
 
 module.exports = model("user", UserSchema);
-

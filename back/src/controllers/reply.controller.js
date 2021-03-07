@@ -3,6 +3,12 @@ const Category = require('../models/category.model')
 const User = require('../models/user.model')
 const Reply = require('../models/reply.model')
 
+/**
+ * @description Create a new reply to topic
+ * @api /api/reply
+ * @access PRIVATE
+ * @type POST
+ */
 exports.reply_create = async (req, res) => {
   try {
     const { topicId, content } = req.body

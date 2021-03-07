@@ -2,9 +2,10 @@ const Category = require('../models/category.model')
 const Forum = require('../models/forum.model')
 
 /**
- * @route POST /category/
  * @description Create category
- * @access Authenticated
+ * @api /api/category/
+ * @access PRIVATE
+ * @type POST
  */
 exports.category_create = async (req, res) => {
   const { forumId, title, description } = req.body

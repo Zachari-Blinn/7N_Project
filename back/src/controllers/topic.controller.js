@@ -1,16 +1,18 @@
 const Topic = require('../models/topic.model')
 const Category = require('../models/category.model')
-const User = require('../models/user.model')
 
+/**
+ * @description Create a new topic in category
+ * @api /api/topic
+ * @access PRIVATE
+ * @type POST
+ */
 exports.topic_create = async (req, res) => {
   try {
     const { categoryId, name, content } = req.body
 
-    // get category provided
     const category = await Category.findById(categoryId)
     if (!category) throw 'Category not found!'
-
-    console.log('test 3')
 
     const newTopic = new Topic({
       category: category,

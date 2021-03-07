@@ -4,7 +4,7 @@ const EmailService = require('../services/email.service')
 
 /**
  * @description Register new user with email and password as parameter
- * @api /auth/register
+ * @api /api/auth/register
  * @access PUBLIC
  * @type POST
  */
@@ -43,8 +43,8 @@ exports.auth_register = async (req, res) => {
 
 /**
  * @description Login with email and password, return accessToken and refreshToken
- * @route POST /auth/login
- * @access Public
+ * @route /api/auth/login
+ * @access PUBLIC
  * @type POST
  */
 exports.auth_login = async (req, res) => {
@@ -83,8 +83,8 @@ exports.auth_login = async (req, res) => {
 
 /**
  * @description To get the authenticated user's profile
- * @api /auth/me
- * @access Private
+ * @api /api/auth/me
+ * @access PRIVATE
  * @type GET
  */
 exports.auth_me = async (req, res) => {

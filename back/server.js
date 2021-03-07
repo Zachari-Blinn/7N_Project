@@ -38,12 +38,12 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // Routes
-app.use('/auth', require('./src/routes/auth.routes'))
-app.use('/category', require('./src/routes/category.routes'))
-app.use('/forum', require('./src/routes/forum.routes'))
-app.use('/reply', require('./src/routes/reply.routes'))
-app.use('/topic', require('./src/routes/topic.routes'))
-app.use('/user', require('./src/routes/user.routes'))
+app.use('/api/auth', require('./src/routes/auth.routes'))
+app.use('/api/category', require('./src/routes/category.routes'))
+app.use('/api/forum', require('./src/routes/forum.routes'))
+app.use('/api/reply', require('./src/routes/reply.routes'))
+app.use('/api/topic', require('./src/routes/topic.routes'))
+app.use('/api/user', require('./src/routes/user.routes'))
 
 app.listen(process.env.SERVER_PORT, () => {
   console.log('Starting server')

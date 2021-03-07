@@ -11,6 +11,5 @@ router.get('/', UserController.user_find)
 router.get('/:id', UserController.user_findOne)
 router.put('/:id', UserController.user_update)
 router.delete('/:id', UserController.user_delete)
-router.get('/me', checkAuth, attachCurrentUser, UserController.user_me)
 
 module.exports = router
