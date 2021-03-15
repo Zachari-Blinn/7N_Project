@@ -55,13 +55,14 @@ exports.forum_find = async (req, res) => {
       {
         $lookup: {
           from: 'categories',
-          let: { categories: '$categories' },
+          let: { categories: '$categories', nbReplies: 0 },
           pipeline: [
             { $match: { $expr: { $in: ['$_id', '$$categories'] } } },
             { $match: { isActive: true } },
             {
               $addFields: {
                 total_topics: { $size: "$topics" },
+                total_replies: nbReplies 
               }
             },
             {
@@ -81,7 +82,8 @@ exports.forum_find = async (req, res) => {
                         { $match: { $expr: { $in: ['$_id', '$$replies'] } } },
                         { $match: { isActive: true } },
                         { $sort: { createdAt: -1 } },
-                        { $limit: 1 }
+                        { $limit: 1 },
+                        { nbReplies: nbReplies + 1}
                       ],
                       as: 'replies'
                     }
