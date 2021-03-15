@@ -14,7 +14,7 @@
 ## General info
 todo.
 
-## Technologies
+## 🔬 Technologies
 Project is created with:
 * Vue - version 2.0
 * MongoDB as Database
