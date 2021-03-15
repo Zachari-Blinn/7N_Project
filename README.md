@@ -1,8 +1,11 @@
 # 7N_Project
 
+## General info
+This project is forum.
+
 ## Technologies
 Project is created with:
-* Vue 2 as frontend framework
+* Vue - version 2.0
 * MongoDB as Database
 * Mongoose as ORM
 * Node
@@ -21,3 +24,6 @@ $ npm i
 $ npm run serve
 
 ```
+
+## Status
+Project is: _in progress_
