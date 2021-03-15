@@ -45,8 +45,6 @@
       return {
         url: "forum",
         data_forum: null,
-        errors: [],
-        errored: false,
         loading: false,
         form: {
           title: null,
@@ -69,7 +67,6 @@
         })
         .catch((error) => {
           console.log(error);
-          this.errored = true;
         })
         .finally(() => {
           this.loading = false;
@@ -92,11 +89,9 @@
           })
           .catch((error) => {
             console.log(error);
-            this.errored = true;
           })
           .finally(() => {
             this.loading = false;
-            this.sending = false
           });
       },
     },

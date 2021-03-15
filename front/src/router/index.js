@@ -13,6 +13,7 @@ import Secure from '@/components/auth/Secure.vue';
 import Register from '@/components/auth/Register.vue';
 
 import CategoryCreate from '@/components/category/Create.vue';
+import CategoryShow from '@/components/category/Show.vue'
 
 import ForumCreate from '@/components/forum/Create.vue';
 import ForumEdit from '@/components/forum/Edit.vue';
@@ -34,6 +35,12 @@ const routes = [{
     meta: {
       requiresAuth: true
     }
+  },
+  {
+    path: '/category/:slugCategory', //forumId
+    name: 'Category_show',
+    component: CategoryShow,
+    props: true,
   },
   {
     path: '/forum/create',

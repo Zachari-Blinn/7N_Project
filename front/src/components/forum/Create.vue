@@ -24,14 +24,21 @@
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
         <md-card-actions>
+          <span>
+            <md-button :to="{path: '/'}">Cancel</md-button>
+          </span>
           <md-button type="submit" class="md-primary">Create</md-button>
         </md-card-actions>
 
       </md-card>
 
-      <md-snackbar :md-duration="4000" :md-active.sync="showSnackbar" md-persistent>
+      <md-snackbar :md-duration="4000" :md-active.sync="showSnackbarSuccess" md-persistent>
         <span>Category {{ form.title }} was created successfully!</span>
-        <md-button class="md-primary" @click="showSnackbar = false">Retry</md-button>
+      </md-snackbar>
+
+      <md-snackbar :md-duration="4000" :md-active.sync="showSnackbarErrored" md-persistent>
+        <span>Error: {{ error }}</span>
+        <md-button class="md-primary" v-on:click="validateForum">Retry</md-button>
       </md-snackbar>
 
     </form>
@@ -45,21 +52,23 @@
     data() {
       return {
         url: "forum",
-        errors: [],
-        errored: false,
-        loading: false,
+        error: null,
         form: {
           title: null,
           description: null,
         },
         sending: false,
-        showSnackbar: false,
+        showSnackbarSuccess: false,
+        showSnackbarErrored: false,
       };
     },
 
     methods: {
       validateForum: function () {
-        this.sending = true
+        this.showSnackbarSuccess = false;
+        this.showSnackbarErrored = false;
+
+        this.sending = true;
 
         this.axios
           .post(this.url, {
@@ -68,15 +77,15 @@
             description: this.form.description
           })
           .then((response) => {
-            this.showSnackbar = true
+            this.showSnackbarSuccess = true
             console.log(response.data)
           })
           .catch((error) => {
+            this.showSnackbarErrored = true
+            this.error = error;
             console.log(error);
-            this.errored = true;
           })
           .finally(() => {
-            this.loading = false;
             this.sending = false
           });
       },

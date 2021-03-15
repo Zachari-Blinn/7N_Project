@@ -3,8 +3,8 @@
 
     <md-button :to="{path: '/forum/create/'}" class="md-raised">Ajouter Forum</md-button>
 
-    <div v-if="data_forum">
-      <div v-for="forum in data_forum" :key="forum._id">
+    <div v-if="data">
+      <div v-for="forum in data" :key="forum._id">
 
         <md-table md-card class="md-elevation-5">
 
@@ -28,8 +28,9 @@
               </md-avatar>
             </md-table-cell>
             <md-table-cell>
+              <router-link :to="{path: '/category/' + category.slug}">
               {{ category.title }}
-              <p>{{ category.description }}</p>
+              <p>{{ category.description }}</p></router-link>
             </md-table-cell>
             <md-table-cell style="text-align: center;">
               {{ category.topics && category.topics.length ? category.topics.length : 0 }}
@@ -76,10 +77,9 @@
     data() {
       return {
         url: "forum",
-        data_forum: null,
+        data: null,
         errored: null,
         loading: true,
-        isAdmin: false,
       };
     },
 
@@ -87,7 +87,7 @@
       this.axios
         .get(this.url)
         .then((response) => {
-          this.data_forum = response.data;
+          this.data = response.data;
         })
         .catch((error) => {
           console.log(error);
@@ -100,7 +100,6 @@
   };
 </script>
 
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
 <style scoped>
   .md-table-cell {
     height: 100px !important;

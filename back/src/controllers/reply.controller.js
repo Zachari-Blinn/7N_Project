@@ -18,23 +18,23 @@ exports.reply_create = async (req, res) => {
       message: 'Topic not found!'
     })
 
-    const newReply = new Reply({
+    Reply.create({
       topic: topic,
       content: content,
       createdBy: req.currentUser,
       isActive: true
-    })
+    }, (err, newReply) => {
+      topic.replies.push(newReply._id)
 
-    topic.replies.push(newReply)
-
-    topic.save()
-
-    newReply.save()
-
-    res.status(200).json({
-      newReply,
-      sucess: true,
-      message: "Reply successfully created",
+      topic.save()
+  
+      newReply.save()
+  
+      res.status(200).json({
+        newReply,
+        sucess: true,
+        message: "Reply successfully created",
+      })
     })
   } catch (err) {
     return res.status(500).json({

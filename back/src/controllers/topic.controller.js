@@ -16,23 +16,23 @@ exports.topic_create = async (req, res) => {
       message: 'Category not found!'
     })
 
-    const newTopic = new Topic({
+    Topic.create({
       category: category,
       name: name,
       content: content,
       createdBy: req.currentUser,
       isActive: true
-    })
-
-    category.topics.push(newTopic)
-    category.save()
-
-    await newTopic.save()
-
-    res.status(201).json({
-      newTopic,
-      sucess: true,
-      message: 'Topic successfully created'
+    }, (err, newTopic) => {
+      category.topics.push(newTopic._id)
+      category.save()
+  
+      newTopic.save()
+  
+      res.status(201).json({
+        newTopic,
+        sucess: true,
+        message: 'Topic successfully created'
+      })
     })
   } catch (err) {
     return res.status(500).json({
