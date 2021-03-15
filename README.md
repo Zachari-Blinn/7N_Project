@@ -1,7 +1,7 @@
 # 7N_Project
 > Project of a new website for a leisure sports association based in Alsace
 
-![GitHub repo size](https://github.com/Zachari-Blinn/7N_Project)
+![GitHub repo size](https://img.shields.io/github/repo-size/Zachari-Blinn/7N_Project)
 
 ## Table of contents
 * [General info](#general-info)
