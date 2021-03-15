@@ -1,7 +1,15 @@
 # 7N_Project
+> Project of a new website for a leisure sports association based in Alsace
+
+## Table of contents
+* [General info](#general-info)
+* [Technologies](#technologies)
+* [Setup](#setup)
+* [Features](#features)
+* [Status](#status)
 
 ## General info
-This project is forum.
+todo.
 
 ## Technologies
 Project is created with:
@@ -24,6 +32,12 @@ $ npm i
 $ npm run serve
 
 ```
+
+## Features
+List of features ready and TODOs for future development
+* Forum
+* Blog
+* Party
 
 ## Status
 Project is: _in progress_
