@@ -5,9 +5,6 @@ const router = express.Router()
 
 const ForumController = require('../controllers/forum.controller')
 
-
-router.get('/test', ForumController.forum_test)
-
 router.post('/', checkAuth, attachCurrentUser, ForumController.forum_create)
 router.get('/', ForumController.forum_find)
 router.get('/:id', ForumController.forum_findOne)

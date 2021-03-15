@@ -6,6 +6,11 @@ const ForumSchema = new Schema({
     type: String,
     required: 'Title is required!'
   },
+  slug: {
+    type: String,
+    slug: "title",
+    unique: true
+  },
   description: {
     type: String,
     required: false

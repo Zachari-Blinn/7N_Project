@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Forum from '@/components/Forum.vue';
+import Forum from '@/components/forum/Index.vue';
 import NavBar from '@/components/partials/NavBar.vue';
 
 export default {

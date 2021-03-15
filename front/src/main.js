@@ -5,8 +5,20 @@ import VueAxios from 'vue-axios';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css' // This line here
+import Vuelidate from 'vuelidate'
+import AxiosPlugin from 'vue-axios-cors';
+ 
+Vue.use(AxiosPlugin)
+Vue.use(Vuelidate)
 
 Vue.config.productionTip = false;
+
+Vue.use(VueMaterial)
+
+Vue.material.locale.dateFormat = 'dd/MM/yyyy'
 
 Vue.use(CKEditor);
 
@@ -19,7 +31,9 @@ if (token) {
   axios.defaults.headers.common['Authorization'] = token
 }
 
-axios.defaults.baseURL = 'http://localhost:8081/';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
+axios.defaults.baseURL = 'http://localhost:8081/api/';
 
 new Vue({
   router,

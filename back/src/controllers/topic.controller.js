@@ -3,16 +3,18 @@ const Category = require('../models/category.model')
 
 /**
  * @description Create a new topic in category
- * @api /api/topic
+ * @api POST /api/topic
  * @access PRIVATE
- * @type POST
  */
 exports.topic_create = async (req, res) => {
   try {
     const { categoryId, name, content } = req.body
 
     const category = await Category.findById(categoryId)
-    if (!category) throw 'Category not found!'
+    if (!category) res.status(404).json({
+      sucess: false,
+      message: 'Category not found!'
+    })
 
     const newTopic = new Topic({
       category: category,
@@ -23,12 +25,19 @@ exports.topic_create = async (req, res) => {
     })
 
     category.topics.push(newTopic)
-    await category.save()
+    category.save()
 
     await newTopic.save()
 
-    res.status(201).json(newTopic)
-  } catch (error) {
-    res.status(500).json(`Error: ${error}`)
+    res.status(201).json({
+      newTopic,
+      sucess: true,
+      message: 'Topic successfully created'
+    })
+  } catch (err) {
+    return res.status(500).json({
+      sucess: false,
+      message: "Something went wrong.",
+    });
   }
 }

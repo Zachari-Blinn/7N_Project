@@ -9,6 +9,11 @@ const UserSchema = new Schema({
     min: 6,
     max: 255
   },
+  slug: {
+    type: String,
+    slug: "username",
+    unique: true
+  },
   email: {
     type: String,
     required: 'Email is required!',
@@ -23,13 +28,17 @@ const UserSchema = new Schema({
     min: 6,
     max: 1024
   },
-  createdBy: {
+  parties: [{
     type: Schema.Types.ObjectId,
-    ref: 'User'
-  },
+    ref: 'Party'
+  }],
   verified: {
     type: Boolean,
     default: false,
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
   },
   isActive: {
     type: Boolean,

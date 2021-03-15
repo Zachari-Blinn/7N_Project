@@ -2,9 +2,8 @@ const User = require('../models/user.model')
 
 /**
  * @description Create a new user
- * @api /api/user
+ * @api POST /api/user
  * @access PRIVATE
- * @type POST
  */
 exports.user_create = async (req, res) => {
   try {
@@ -20,9 +19,8 @@ exports.user_create = async (req, res) => {
 
 /**
  * @description Find one user with id
- * @api /api/user/:id
+ * @api GET /api/user/:id
  * @access PRIVATE
- * @type GET
  */
 exports.user_findOne = async (req, res) => {
   try {
@@ -38,9 +36,8 @@ exports.user_findOne = async (req, res) => {
 
 /**
  * @description Find all user
- * @api /api/user
+ * @api POST /api/user
  * @access PRIVATE
- * @type POST
  */
 exports.user_find = async (req, res) => {
   try {
@@ -56,9 +53,8 @@ exports.user_find = async (req, res) => {
 
 /**
  * @description Update selected user with id
- * @api /api/user/:id
+ * @api PUT /api/user/:id
  * @access PRIVATE
- * @type PUT
  */
 exports.user_update = async (req, res) => {
   try {
@@ -76,9 +72,8 @@ exports.user_update = async (req, res) => {
 
 /**
  * @description Delete selected user with id
- * @api /api/user/:id
+ * @api DELETE /api/user/:id
  * @access PRIVATE
- * @type DELETE
  */
 exports.user_delete = async (req, res) => {
   try {

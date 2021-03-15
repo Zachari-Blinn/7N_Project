@@ -1,74 +1,85 @@
 <template>
-  <div>
-    <div class="container">
-      <h4>Register</h4>
-      <form @submit.prevent="register">
-        <label for="username">Username</label>
-        <div>
-          <input
-            id="username"
-            type="text"
-            v-model="username"
-            required
-            autofocus
-          />
-        </div>
+  <div class="container">
+    <form novalidate class="md-layout" @submit.prevent="register">
+      <md-card class="md-layout-item">
+        <md-card-header>
+          <div class="md-title">Register</div>
+        </md-card-header>
 
-        <label for="email">E-Mail Address</label>
-        <div>
-          <input id="email" type="email" v-model="email" required />
-        </div>
+        <md-card-content>
 
-        <label for="password">Password</label>
-        <div>
-          <input id="password" type="password" v-model="password" required />
-        </div>
+          <md-field>
+            <label for="username">Username</label>
+            <md-input name="username" id="username" type="text" v-model="form.username" :disabled="sending" autofocus />
+          </md-field>
 
-        <label for="password-confirm">Confirm Password</label>
-        <div>
-          <input
-            id="password-confirm"
-            type="password"
-            v-model="password_confirmation"
-            required
-          />
-        </div>
+          <md-field>
+            <label for="email">Email</label>
+            <md-input name="email" id="email" type="email" v-model="form.email" :disabled="sending" />
+          </md-field>
 
-        <div>
-          <button type="submit">Register</button>
-        </div>
-      </form>
-    </div>
+          <md-field>
+            <label for="password">Password</label>
+            <md-input id="password" type="password" v-model="form.password" :disabled="sending" />
+          </md-field>
+
+          <md-progress-bar md-mode="indeterminate" v-if="sending" />
+
+        </md-card-content>
+
+        <md-card-actions>
+          <md-button type="submit" class="md-primary" :disabled="sending">Register</md-button>
+        </md-card-actions>
+
+      </md-card>
+    </form>
+
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      username: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-      is_admin: null,
-    };
-  },
-
-  methods: {
-    register: function () {
-      let data = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
-        is_admin: this.is_admin,
+  export default {
+    data() {
+      return {
+        form: {
+          username: null,
+          email: null,
+          password: null,
+          password_confirmation: null,
+        },
+        sending: false,
       };
-      this.$store
-        .dispatch("register", data)
-        .then(() => this.$router.push("/"))
-        .catch((err) => console.log(err));
     },
-  },
-};
+
+    methods: {
+      clearForm() {
+        this.$v.$reset()
+        this.form.username = null
+        this.form.email = null
+        this.form.password = null
+      },
+      register: function () {
+        this.sending = true
+
+        let data = {
+          username: this.form.username,
+          email: this.form.email,
+          password: this.form.password,
+        };
+        this.$store
+          .dispatch("register", data)
+          .then(() => {
+            this.sending = false
+            this.clearForm()
+            this.$router.push("/")
+          })
+          .catch((err) => {
+            this.sending = false
+            console.log(err)
+          });
+      },
+    },
+  };
 </script>
 
 <!-- Add 'scoped' attribute to limit CSS to this component only -->

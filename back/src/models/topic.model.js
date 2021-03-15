@@ -10,6 +10,11 @@ const TopicSchema = new Schema({
     type: String,
     required: 'Name is required!'
   },
+  slug: {
+    type: String,
+    slug: "name",
+    unique: true
+  },
   content: {
     type: String,
     required: 'Content is required!'

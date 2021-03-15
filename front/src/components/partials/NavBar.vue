@@ -1,12 +1,11 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div>
+    <md-tabs md-sync-route class="md-transparent" md-alignment="right">
+      <md-tab id="tab-home" md-label="Home" to="/" exact></md-tab>
+      <md-tab id="tab-about" md-label="About" to="/about"></md-tab>
       <span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span>
       <span v-if="!isLoggedIn"> | <router-link  to="/login">Login</router-link></span>
-    </div>
-    <router-view/>
+    </md-tabs>
   </div>
 </template>
 

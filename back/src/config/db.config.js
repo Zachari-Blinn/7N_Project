@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 
+mongoose.plugin(require('mongoose-slug-generator'));
+
 const InitiateMongoServer = async () => {
   try {
     await mongoose.connect(process.env.DB_URI, {

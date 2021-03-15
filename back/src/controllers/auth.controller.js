@@ -1,17 +1,17 @@
 const User = require('../models/user.model')
+const { ErrorHandler } = require('../helpers/error.helper')
 
 const EmailService = require('../services/email.service')
 
 /**
  * @description Register new user with email and password as parameter
- * @api /api/auth/register
+ * @api POST /api/auth/register
  * @access PUBLIC
- * @type POST
  */
-exports.auth_register = async (req, res) => {
+exports.auth_register = async (req, res, next) => {
   try {
     await User.findOne({ email: req.body.email }, async (err, user) => {
-      if (err) throw new Error(err)
+      if (err) throw new ErrorHandler(500, 'Error')
 
       if (!user) {
         req.body.role = 'user'
@@ -37,23 +37,22 @@ exports.auth_register = async (req, res) => {
       }
     })
   } catch (error) {
-    res.status(500).json(`Error: ${error}`)
+    next(error)
   }
 }
 
 /**
  * @description Login with email and password, return accessToken and refreshToken
- * @route /api/auth/login
+ * @route POST /api/auth/login
  * @access PUBLIC
- * @type POST
  */
-exports.auth_login = async (req, res) => {
+exports.auth_login = async (req, res, next) => {
   try {
     const { email } = req.body
-    if (!email) throw new Error('Email not provided!')
+    if (!email) throw new ErrorHandler(403, 'Email not provided!')
 
     const { password } = req.body
-    if (!password) throw new Error('Password not provided!')
+    if (!password) throw new ErrorHandler(403, 'Password not provided!')
 
     const user = await User.findOne({
       email: email,
@@ -63,29 +62,22 @@ exports.auth_login = async (req, res) => {
         _id: 1,
         password: 1
       })
-    if (!user) throw new Error('User not found!')
+    if (!user) throw new ErrorHandler(404, 'User not found');
 
-    if(!(await user.comparePassword(password))){
-      return res.status(401).json({
-        success: false,
-        message: "Incorrect password.",
-      });
-    }
+    if(!(await user.comparePassword(password))) throw new ErrorHandler(401, 'Incorrect password')
 
     const token = await user.generateAccessToken('24h')
 
     res.header('auth-token', token).send({ token: token })
   } catch (error) {
-    console.log(error)
-    res.status(500).json(`Error: ${error}`)
+    next(error)
   }
 }
 
 /**
  * @description To get the authenticated user's profile
- * @api /api/auth/me
+ * @api GET /api/auth/me
  * @access PRIVATE
- * @type GET
  */
 exports.auth_me = async (req, res) => {
   return res.status(200).json({
@@ -93,7 +85,7 @@ exports.auth_me = async (req, res) => {
   });
 };
 
-exports.auth_reset_password = async (req, res) => {
+exports.auth_reset_password = async (req, res, next) => {
   try {
     const { email } = req.body
     if (!email) throw new Error('Email not provided!')
@@ -124,6 +116,6 @@ exports.auth_reset_password = async (req, res) => {
 
     res.status(200).json('yes')
   } catch (error) {
-    res.status(500).json(`Error: ${error}`)
+    next(error)
   }
 }
