@@ -1,5 +1,13 @@
 # 7N_Project
 
+## Technologies
+Project is created with:
+* Vue 2 as frontend framework
+* MongoDB as Database
+* Mongoose as ORM
+* Node
+* Express
+
 ## Setup
 To run this project, install it locally using npm:
 
