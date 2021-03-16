@@ -91,7 +91,7 @@
             console.log(error);
           })
           .finally(() => {
-            this.loading = false;
+            this.sending = false;
           });
       },
     },
