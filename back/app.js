@@ -15,7 +15,7 @@ app.use(helmet())
 
 // Setup CORS options
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN ?? '*'
+  origin: '*'
 }
 
 // Load CORS with options

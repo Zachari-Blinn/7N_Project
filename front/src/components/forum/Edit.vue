@@ -21,7 +21,7 @@
 
 
         <md-card-actions>
-          <md-button :to="{path: '/'}">Cancel</md-button>
+          <md-button @click="$router.go(-1)">Cancel</md-button>
           <md-button type="submit" class="md-primary">Edit</md-button>
         </md-card-actions>
 
@@ -84,8 +84,8 @@
             isActive: this.form.isActive
           })
           .then((response) => {
+            this.$router.push(this.$router.go(-1));
             this.showSnackbar = true
-            console.log(response.data)
           })
           .catch((error) => {
             console.log(error);
