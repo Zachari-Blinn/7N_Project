@@ -3,7 +3,12 @@
     <form class="md-layout" @submit.prevent="validate">
       <md-card class="md-layout-item">
 
+        <md-card-header>
+          <div class="md-title">Category: edit</div>
+        </md-card-header>
+
         <md-card-content>
+
           <md-field>
             <label for="title">Title</label>
             <md-input name="title" id="title" v-model="form.title" maxlength="64" required />
@@ -15,21 +20,27 @@
           </md-field>
 
           <md-switch name="isActive" id="isActive" v-model="form.isActive">isActive</md-switch>
+
         </md-card-content>
 
         <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
-
         <md-card-actions>
-          <md-button :to="{path: '/'}">Cancel</md-button>
-          <md-button type="submit" class="md-primary">Edit</md-button>
+          <span>
+            <md-button :to="{path: '/'}">Cancel</md-button>
+          </span>
+          <md-button type="submit" class="md-primary">Create</md-button>
         </md-card-actions>
 
       </md-card>
 
-      <md-snackbar :md-duration="4000" :md-active.sync="showSnackbar" md-persistent>
-        <span>Forum {{ form.title }} was edited successfully!</span>
-        <md-button class="md-primary" @click="showSnackbar = false">Retry</md-button>
+      <md-snackbar :md-duration="4000" :md-active.sync="showSnackbarSuccess" md-persistent>
+        <span>Category {{ form.title }} was created successfully!</span>
+      </md-snackbar>
+
+      <md-snackbar :md-duration="4000" :md-active.sync="showSnackbarErrored" md-persistent>
+        <span>Error: {{ error }}</span>
+        <md-button class="md-primary" v-on:click="validate">Retry</md-button>
       </md-snackbar>
 
     </form>
@@ -38,60 +49,64 @@
 
 <script>
   export default {
-    name: "Forum_edit",
-    props: ["id"],
+    name: "Category_edit",
+    props: ["slug"],
 
     data() {
       return {
-        url: "forum",
-        data_forum: null,
-        loading: false,
+        url: "category",
+        data: null,
+        error: null,
         form: {
           title: null,
           description: null,
-          isActive: null
         },
         sending: false,
-        showSnackbar: false,
+        showSnackbarSuccess: false,
+        showSnackbarErrored: false,
       };
     },
 
     mounted: async function () {
       this.axios
-        .get(this.url + '/' + this.id)
+        .get(`${this.url}/${this.slug}`)
         .then((response) => {
-          this.data_forum = response.data;
-          this.form.title = this.data_forum.forum.title;
-          this.form.description = this.data_forum.forum.description;
-          this.form.isActive = this.data_forum.forum.isActive;
+          this.data = response.data;
+          this.form.title = this.data.category.title;
+          this.form.description = this.data.category.description;
+          this.form.isActive = this.data.category.isActive;
         })
         .catch((error) => {
           console.log(error);
         })
-        .finally(() => {
+        .finally(()=> {
           this.loading = false;
         });
     },
 
     methods: {
       validate: function () {
-        this.sending = true
+        this.showSnackbarSuccess = false;
+        this.showSnackbarErrored = false;
+
+        this.sending = true;
 
         this.axios
-          .put(this.url + '/' + this.id, {
+          .put(`${this.url}/${this.slug}`, {
             title: this.form.title,
-            description: this.form.description,
-            isActive: this.form.isActive
+            description: this.form.description
           })
           .then((response) => {
-            this.showSnackbar = true
+            this.showSnackbarSuccess = true
             console.log(response.data)
           })
           .catch((error) => {
+            this.showSnackbarErrored = true
+            this.error = error;
             console.log(error);
           })
           .finally(() => {
-            this.loading = false;
+            this.sending = false
           });
       },
     },

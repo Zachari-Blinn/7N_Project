@@ -11,7 +11,7 @@
           <md-button class="md-icon-button" :to="{path: '/topic/create/' + data.category._id}">
             <md-icon style="color:#A0A0A0;">add</md-icon>
           </md-button>
-          <md-button class="md-icon-button" :to="{path: '/category/edit/' + data.category._id}">
+          <md-button class="md-icon-button" :to="{path: '/category/edit/' + data.category.slug}">
             <md-icon style="color:#A0A0A0;">settings</md-icon>
           </md-button>
         </md-table-toolbar>
