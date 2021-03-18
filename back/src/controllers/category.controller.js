@@ -1,5 +1,5 @@
-const Category = require('../models/category.model')
-const Forum = require('../models/forum.model')
+const Category = require('../models/category')
+const Forum = require('../models/forum')
 
 /**
  * @description Create category
@@ -11,16 +11,18 @@ exports.category_create = async (req, res) => {
     const { forumId, title, description } = req.body
 
     const forum = await Forum.findOne({ _id: forumId })
-    if (!forum) res.status(404).json({
-      sucess: false,
-      message: 'Forum not found!'
-    })
+    if (!forum) {
+      res.status(404).json({
+        sucess: false,
+        message: 'Forum not found!'
+      })
+    }
 
     Category.create({
       forum: forum,
       title: title,
       description: description,
-      createdBy: req.currentUser,
+      createdBy: req.currentUser
     }, (err, newCategory) => {
       forum.categories.push(newCategory._id)
       forum.save()
@@ -36,8 +38,8 @@ exports.category_create = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }
 
@@ -46,22 +48,22 @@ exports.category_create = async (req, res) => {
  * @api GET /api/category/:id
  * @access PUBLIC
  */
- exports.category_findOne = async (req, res) => {
+exports.category_findOne = async (req, res) => {
   try {
-    const populate = req.query.populate;
+    const populate = req.query.populate
 
     const category = await Category.findOne({ slug: req.params.slug }).populate(populate)
 
     res.status(200).json({
       category,
       sucess: true,
-      message: "Category successfully funded",
+      message: 'Category successfully funded'
     })
   } catch (err) {
     return res.status(500).json({
       sucess: false,
-      message: err,
-    });
+      message: err
+    })
   }
 }
 
@@ -72,18 +74,17 @@ exports.category_create = async (req, res) => {
  */
 exports.category_find = async (req, res) => {
   try {
-
     const category = await Category.find()
 
     res.status(200).json({
       category,
       sucess: true,
-      message: "Category successfully funded",
+      message: 'Category successfully funded'
     })
   } catch (error) {
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }

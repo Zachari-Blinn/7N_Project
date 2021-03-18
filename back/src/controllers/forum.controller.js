@@ -1,4 +1,4 @@
-const Forum = require('../models/forum.model')
+const Forum = require('../models/forum')
 const { ErrorHandler } = require('../helpers/error.helper')
 
 /**
@@ -21,15 +21,14 @@ exports.forum_create = (req, res) => {
       res.status(201).json({
         forum,
         sucess: true,
-        message: "Forum successfully created",
+        message: 'Forum successfully created'
       })
     })
-    
   } catch (err) {
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }
 
@@ -44,14 +43,14 @@ exports.forum_findOne = (req, res) => {
       res.status(200).json({
         forum,
         sucess: true,
-        message: "Forum successfully funded",
+        message: 'Forum successfully funded'
       })
     })
   } catch (err) {
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }
 

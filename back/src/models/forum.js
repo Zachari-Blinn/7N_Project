@@ -1,5 +1,5 @@
-const { Schema, model } = require("mongoose");
-const Category = require('../models/category.model')
+const { Schema, model } = require('mongoose')
+const Category = require('../models/category')
 
 const ForumSchema = new Schema({
   title: {
@@ -8,7 +8,7 @@ const ForumSchema = new Schema({
   },
   slug: {
     type: String,
-    slug: "title",
+    slug: 'title',
     unique: true
   },
   description: {
@@ -31,10 +31,10 @@ const ForumSchema = new Schema({
   timestamps: true
 })
 
-ForumSchema.pre("findOneAndDelete", { document: true, query: false }, async function () {
-  const docToDelete = await this.model.findOne(this.getQuery());
-  await Category.deleteMany({ forum: docToDelete });
+ForumSchema.pre('findOneAndDelete', { document: true, query: false }, async function () {
+  const docToDelete = await this.model.findOne(this.getQuery())
+  await Category.deleteMany({ forum: docToDelete })
   console.log(docToDelete)
-});
+})
 
 module.exports = model('Forum', ForumSchema)

@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose')
 const { hash, compare } = require('bcrypt')
 const { sign } = require('jsonwebtoken')
 
@@ -11,7 +11,7 @@ const UserSchema = new Schema({
   },
   slug: {
     type: String,
-    slug: "username",
+    slug: 'username',
     unique: true
   },
   email: {
@@ -34,7 +34,7 @@ const UserSchema = new Schema({
   }],
   verified: {
     type: Boolean,
-    default: false,
+    default: false
   },
   createdBy: {
     type: Schema.Types.ObjectId,
@@ -48,31 +48,31 @@ const UserSchema = new Schema({
   timestamps: true
 })
 
-UserSchema.pre("save", async function (next) {
-  let user = this;
-  if (!user.isModified("password")) return next();
-  user.password = await hash(user.password, 10);
+UserSchema.pre('save', async function (next) {
+  const user = this
+  if (!user.isModified('password')) return next()
+  user.password = await hash(user.password, 10)
   console.log(user.password)
-  next();
-});
+  next()
+})
 
 /**
  * @param password
  * @returns {Promise<*>}
  */
 UserSchema.methods.comparePassword = async function (password) {
-  return await compare(password, this.password);
-};
+  return await compare(password, this.password)
+}
 
 /**
  * @param expiresIn
  * @returns {Promise<*>}
  */
 UserSchema.methods.generateAccessToken = async function (expiresIn) {
-  let payload = {
-    id: this._id,
-  };
-  return await sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn });
-};
+  const payload = {
+    id: this._id
+  }
+  return await sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiresIn })
+}
 
-module.exports = model("user", UserSchema);
+module.exports = model('user', UserSchema)

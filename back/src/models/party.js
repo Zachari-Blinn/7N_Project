@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose')
 
 const PartySchema = new Schema({
   name: {
@@ -7,7 +7,7 @@ const PartySchema = new Schema({
   },
   slug: {
     type: String,
-    slug: "name",
+    slug: 'name',
     unique: true
   },
   description: {

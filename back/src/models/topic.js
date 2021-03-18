@@ -1,10 +1,10 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model } = require('mongoose')
 
-const CategorySchema = new Schema({
-  forum: {
+const TopicSchema = new Schema({
+  category: {
     type: Schema.Types.ObjectId,
-    required: 'Forum is required!',
-    ref: 'Forum'
+    required: 'Category is required!',
+    ref: 'Category'
   },
   title: {
     type: String,
@@ -12,16 +12,16 @@ const CategorySchema = new Schema({
   },
   slug: {
     type: String,
-    slug: "title",
+    slug: 'title',
     unique: true
   },
-  description: {
+  content: {
     type: String,
-    required: false
+    required: 'Content is required!'
   },
-  topics: [{
+  replies: [{
     type: Schema.Types.ObjectId,
-    ref: 'Topic'
+    ref: 'Reply'
   }],
   createdBy: {
     type: Schema.Types.ObjectId,
@@ -35,4 +35,4 @@ const CategorySchema = new Schema({
   timestamps: true
 })
 
-module.exports = model('Category', CategorySchema)
+module.exports = model('Topic', TopicSchema)

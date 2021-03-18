@@ -47,7 +47,6 @@
 
 <script>
   export default {
-    name: "Category_create",
     props: ["id"],
 
     data() {

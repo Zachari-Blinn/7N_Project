@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-mongoose.plugin(require('mongoose-slug-generator'));
+mongoose.plugin(require('mongoose-slug-generator'))
 
 const InitiateMongoServer = async () => {
   try {

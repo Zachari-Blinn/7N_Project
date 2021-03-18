@@ -1,4 +1,4 @@
-const User = require('../models/user.model')
+const User = require('../models/user')
 const { ErrorHandler } = require('../helpers/error.helper')
 
 const EmailService = require('../services/email.service')
@@ -62,9 +62,9 @@ exports.auth_login = async (req, res, next) => {
         _id: 1,
         password: 1
       })
-    if (!user) throw new ErrorHandler(404, 'User not found');
+    if (!user) throw new ErrorHandler(404, 'User not found')
 
-    if(!(await user.comparePassword(password))) throw new ErrorHandler(401, 'Incorrect password')
+    if (!(await user.comparePassword(password))) throw new ErrorHandler(401, 'Incorrect password')
 
     const token = await user.generateAccessToken('24h')
 
@@ -81,9 +81,9 @@ exports.auth_login = async (req, res, next) => {
  */
 exports.auth_me = async (req, res) => {
   return res.status(200).json({
-    user: req.currentUser,
-  });
-};
+    user: req.currentUser
+  })
+}
 
 exports.auth_reset_password = async (req, res, next) => {
   try {

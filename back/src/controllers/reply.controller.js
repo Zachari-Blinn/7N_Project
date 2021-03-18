@@ -1,7 +1,7 @@
-const Topic = require('../models/topic.model')
-const Category = require('../models/category.model')
-const User = require('../models/user.model')
-const Reply = require('../models/reply.model')
+const Topic = require('../models/topic')
+const Category = require('../models/category')
+const User = require('../models/user')
+const Reply = require('../models/reply')
 
 /**
  * @description Create a new reply to topic
@@ -13,10 +13,12 @@ exports.reply_create = async (req, res) => {
     const { topicId, content } = req.body
 
     const topic = await Topic.findById(topicId)
-    if (!topic) res.status(404).json({
-      sucess: false,
-      message: 'Topic not found!'
-    })
+    if (!topic) {
+      res.status(404).json({
+        sucess: false,
+        message: 'Topic not found!'
+      })
+    }
 
     Reply.create({
       topic: topic,
@@ -27,19 +29,19 @@ exports.reply_create = async (req, res) => {
       topic.replies.push(newReply._id)
 
       topic.save()
-  
+
       newReply.save()
-  
+
       res.status(200).json({
         newReply,
         sucess: true,
-        message: "Reply successfully created",
+        message: 'Reply successfully created'
       })
     })
   } catch (err) {
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }

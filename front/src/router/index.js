@@ -20,6 +20,7 @@ import ForumCreate from '@/components/forum/Create.vue';
 import ForumEdit from '@/components/forum/Edit.vue';
 
 import PartyCreate from '@/components/party/Create.vue';
+import TopicCreate from '@/components/topic/Create.vue';
 
 Vue.use(VueRouter);
 
@@ -64,6 +65,15 @@ const routes = [{
     path: '/forum/edit/:id',
     name: 'Forum_edit',
     component: ForumEdit,
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/topic/create/:categoryId',
+    name: 'Topic_create',
+    component: TopicCreate,
     props: true,
     meta: {
       requiresAuth: true

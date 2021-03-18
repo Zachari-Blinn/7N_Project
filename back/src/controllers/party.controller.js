@@ -1,4 +1,4 @@
-const Party = require('../models/party.model')
+const Party = require('../models/party')
 
 /**
  * @description Create a new Party
@@ -24,17 +24,16 @@ exports.party_create = (req, res) => {
       res.status(201).json({
         party,
         sucess: true,
-        message: "Party successfully created",
+        message: 'Party successfully created'
       })
     })
-
   } catch (err) {
-    console.log('err' + err);
+    console.log('err' + err)
 
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }
 
@@ -49,10 +48,12 @@ exports.party_join = async (req, res) => {
     const currentUser = req.currentUser
 
     const party = await Party.findOne({ _id: partyId })
-    if (!party) res.status(404).json({
-      sucess: false,
-      message: 'Party not found!'
-    })
+    if (!party) {
+      res.status(404).json({
+        sucess: false,
+        message: 'Party not found!'
+      })
+    }
 
     party.participants.push(currentUser)
 
@@ -65,15 +66,15 @@ exports.party_join = async (req, res) => {
       saveUser,
       saveParty,
       sucess: true,
-      message: "User successfully joined party",
+      message: 'User successfully joined party'
     })
   } catch (err) {
-    console.log('err' + err);
+    console.log('err' + err)
 
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }
 
@@ -88,10 +89,12 @@ exports.party_left = async (req, res) => {
     const currentUser = req.currentUser
 
     const party = await Party.findOne({ _id: partyId })
-    if (!party) res.status(404).json({
-      sucess: false,
-      message: 'Party not found!'
-    })
+    if (!party) {
+      res.status(404).json({
+        sucess: false,
+        message: 'Party not found!'
+      })
+    }
 
     party.participants.pop(currentUser)
 
@@ -104,14 +107,14 @@ exports.party_left = async (req, res) => {
       saveUser,
       saveParty,
       sucess: true,
-      message: "User successfully left party",
+      message: 'User successfully left party'
     })
   } catch (err) {
-    console.log('err' + err);
+    console.log('err' + err)
 
     return res.status(500).json({
       sucess: false,
-      message: "Something went wrong.",
-    });
+      message: 'Something went wrong.'
+    })
   }
 }
