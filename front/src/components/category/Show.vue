@@ -46,7 +46,7 @@
     },
 
     mounted: async function () {
-      this.axios
+      this.$http
         .get(`${this.url}/${this.categorySlug}`, {
           params: {
             populate: 'topics'

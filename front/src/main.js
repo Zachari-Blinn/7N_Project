@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import CKEditor from '@ckeditor/ckeditor5-vue2';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
+import Axios from 'axios'
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -20,18 +19,18 @@ Vue.material.locale.dateFormat = 'dd/MM/yyyy'
 
 Vue.use(CKEditor);
 
-Vue.use(VueAxios, axios);
+Vue.prototype.$http = Axios;
 
 // Auth if token provided
 const token = localStorage.getItem('token')
 
 if (token) {
-  axios.defaults.headers.common['Authorization'] = token
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
 }
 
 // Axios config
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.baseURL = 'http://localhost:8081/api/';
+Vue.prototype.$http.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+Vue.prototype.$http.defaults.baseURL = 'http://localhost:8081/api/';
 
 new Vue({
   router,

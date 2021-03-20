@@ -8,14 +8,16 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
+    user : {}
   },
   mutations: {
     auth_request(state) {
       state.status = 'loading'
     },
-    auth_success(state, token) {
+    auth_success(state, token, user) {
       state.status = 'success'
       state.token = token
+      state.user = user
     },
     auth_error(state) {
       state.status = 'error'
@@ -36,9 +38,10 @@ export default new Vuex.Store({
         axios({ url: '/auth/login', data: user, method: 'POST' })
           .then(resp => {
             const token = resp.data.token
+            const user = resp.data.user
             localStorage.setItem('token', `Bearer ${token}`)
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            commit('auth_success', token)
+            commit('auth_success', token, user)
             resolve(resp)
           })
           .catch(err => {
@@ -53,11 +56,11 @@ export default new Vuex.Store({
         commit('auth_request')
         axios({ url: '/auth/register', data: user, method: 'POST' })
           .then(resp => {
-            console.log(resp)
             const token = resp.data.token
+            const user = resp.data.user
             localStorage.setItem('token', `Bearer ${token}`)
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            commit('auth_success', token)
+            commit('auth_success', token, user)
             resolve(resp)
           })
           .catch(err => {
@@ -67,7 +70,7 @@ export default new Vuex.Store({
           })
       })
     },
-    logout({commit, dispatch}) {
+    logout({commit}) {
       return new Promise((resolve, reject) => {
         commit('logout')
         localStorage.removeItem('token')

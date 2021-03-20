@@ -70,7 +70,7 @@ export default {
 
       this.sending = true;
 
-      this.axios
+      this.$http
         .post(this.url, {
           categorySlug: this.categorySlug,
           title: this.form.title,

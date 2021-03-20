@@ -82,7 +82,7 @@
     },
 
     mounted: async function () {
-      this.axios
+      this.$http
         .get(this.url)
         .then((response) => {
           this.data = response.data;

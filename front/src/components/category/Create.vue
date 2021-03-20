@@ -70,7 +70,7 @@
 
         this.sending = true;
 
-        this.axios
+        this.$http
           .post(this.url, {
             forumSlug: this.forumSlug,
             title: this.form.title,

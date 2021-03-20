@@ -89,7 +89,7 @@
     },
 
     mounted: async function () {
-      this.$axios
+      this.$http
         .get("https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port")
           .then((response) => {
             console.log(response.data.features)
@@ -110,7 +110,7 @@
           },
 
           searchLocation: function () {
-            axios.get("https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port")
+            this.$http.get("https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port")
               .then(function (response) {
                 console.log(response)
               })
@@ -122,7 +122,7 @@
           validateParty: function () {
             this.sending = true
 
-            this.axios
+            this.$http
               .post(this.url, {
                 name: this.form.name,
                 description: this.form.description,

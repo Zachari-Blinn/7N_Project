@@ -56,7 +56,7 @@
     },
 
     mounted: async function () {
-      this.axios
+      this.$http
         .get(this.url + '/' + this.forumSlug)
         .then((response) => {
           this.data_forum = response.data;
@@ -76,7 +76,7 @@
       validate: function () {
         this.sending = true
 
-        this.axios
+        this.$http
           .put(this.url + '/' + this.forumSlug, {
             title: this.form.title,
             description: this.form.description,

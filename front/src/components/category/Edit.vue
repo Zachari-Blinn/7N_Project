@@ -67,7 +67,7 @@
     },
 
     mounted: async function () {
-      this.axios
+      this.$http
         .get(`${this.url}/${this.categorySlug}`)
         .then((response) => {
           this.data = response.data;
@@ -90,7 +90,7 @@
 
         this.sending = true;
 
-        this.axios
+        this.$http
           .put(`${this.url}/${this.categorySlug}`, {
             title: this.form.title,
             description: this.form.description

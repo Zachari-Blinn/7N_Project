@@ -72,7 +72,10 @@ exports.auth_login = async (req, res, next) => {
 
     const token = await user.generateAccessToken('24h')
 
-    res.header('auth-token', token).send({ token: token })
+    res.status(200).json({
+      user,
+      token
+    })
   } catch (error) {
     next(error)
   }
