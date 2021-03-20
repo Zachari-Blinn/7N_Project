@@ -52,7 +52,6 @@ UserSchema.pre('save', async function (next) {
   const user = this
   if (!user.isModified('password')) return next()
   user.password = await hash(user.password, 10)
-  console.log(user.password)
   next()
 })
 

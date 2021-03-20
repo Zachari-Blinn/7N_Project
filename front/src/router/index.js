@@ -5,7 +5,6 @@ import store from '@/store/index';
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
 import Login from '@/components/auth/Login.vue';
-import Secure from '@/components/auth/Secure.vue';
 import Register from '@/components/auth/Register.vue';
 import CategoryCreate from '@/components/category/Create.vue';
 import CategoryShow from '@/components/category/Show.vue';
@@ -94,14 +93,6 @@ const routes = [{
     component: Register,
     meta: {
       requiresNotAuth: true
-    }
-  },
-  {
-    path: '/secure',
-    name: 'secure',
-    component: Secure,
-    meta: {
-      requiresAuth: true
     }
   },
   {

@@ -110,8 +110,6 @@ exports.auth_reset_password = async (req, res, next) => {
     // todo
     const emailService = new EmailService()
 
-    console.log(process.env.EMAIL_NOREPLY)
-
     const message = {
       from: process.env.EMAIL_NOREPLY, // Sender address
       to: email, // List of recipients

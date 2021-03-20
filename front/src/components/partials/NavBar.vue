@@ -3,8 +3,8 @@
     <md-tabs md-sync-route class="md-transparent" md-alignment="right">
       <md-tab id="tab-home" md-label="Home" to="/" exact></md-tab>
       <md-tab id="tab-about" md-label="About" to="/about"></md-tab>
-      <md-tab v-if="isLoggedIn" id="tab-about" md-label="About" @click="logout"></md-tab>
-      <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
+      <md-tab v-if="isLoggedIn" id="tab-logout" md-label="Logout" @click="logout"></md-tab>
+      <md-tab v-if="!isLoggedIn" id="tab-login" md-label="Login" to="/login"></md-tab>
     </md-tabs>
   </div>
 </template>
