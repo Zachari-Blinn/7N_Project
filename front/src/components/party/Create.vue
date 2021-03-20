@@ -55,7 +55,6 @@
     components: {
       VueGoogleAutocomplete
     },
-    name: "Party_create",
 
     data() {
       return {

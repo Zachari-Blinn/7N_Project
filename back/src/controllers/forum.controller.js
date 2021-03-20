@@ -35,13 +35,13 @@ exports.forum_create = (req, res) => {
 }
 
 /**
- * @description Find one forum by id
- * @api GET /api/forum/:id
+ * @description Find one forum by slug
+ * @api GET /api/forum/:slug
  * @access PUBLIC
  */
 exports.forum_findOne = (req, res) => {
   try {
-    Forum.findOne({ _id: req.params.id }, (err, forum) => {
+    Forum.findOne({ slug: req.params.slug }, (err, forum) => {
       res.status(200).json({
         forum,
         sucess: true,
@@ -120,13 +120,13 @@ exports.forum_find = async (req, res, next) => {
 }
 
 /**
- * @description Update selected forum with id
- * @api PUT /api/forum/:id
+ * @description Update selected forum with slug
+ * @api PUT /api/forum/:slug
  * @access PRIVATE
  */
 exports.forum_update = async (req, res, next) => {
   try {
-    const forum = await Forum.findOneAndUpdate({ _id: req.params.id }, {
+    const forum = await Forum.findOneAndUpdate({ slug: req.params.slug }, {
       $set: req.body
     })
 
@@ -139,13 +139,13 @@ exports.forum_update = async (req, res, next) => {
 }
 
 /**
- * @description Delete selected forum with id
- * @api DELETE /api/forum/:id
+ * @description Delete selected forum with slug
+ * @api DELETE /api/forum/:slug
  * @access PRIVATE
  */
 exports.forum_delete = async (req, res, next) => {
   try {
-    Forum.findOneAndDelete({ _id: req.params.id }, (err, forum) => {
+    Forum.findOneAndDelete({ slug: req.params.slug }, (err, forum) => {
       res.status(200).json(forum)
     })
   } catch (error) {

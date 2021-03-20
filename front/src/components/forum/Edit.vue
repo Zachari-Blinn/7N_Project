@@ -38,8 +38,7 @@
 
 <script>
   export default {
-    name: "Forum_edit",
-    props: ["id"],
+    props: ["forumSlug"],
 
     data() {
       return {
@@ -58,7 +57,7 @@
 
     mounted: async function () {
       this.axios
-        .get(this.url + '/' + this.id)
+        .get(this.url + '/' + this.forumSlug)
         .then((response) => {
           this.data_forum = response.data;
           this.form.title = this.data_forum.forum.title;
@@ -78,7 +77,7 @@
         this.sending = true
 
         this.axios
-          .put(this.url + '/' + this.id, {
+          .put(this.url + '/' + this.forumSlug, {
             title: this.form.title,
             description: this.form.description,
             isActive: this.form.isActive

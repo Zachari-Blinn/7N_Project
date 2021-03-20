@@ -49,8 +49,7 @@
 
 <script>
   export default {
-    name: "Category_edit",
-    props: ["slug"],
+    props: ["categorySlug"],
 
     data() {
       return {
@@ -69,7 +68,7 @@
 
     mounted: async function () {
       this.axios
-        .get(`${this.url}/${this.slug}`)
+        .get(`${this.url}/${this.categorySlug}`)
         .then((response) => {
           this.data = response.data;
           this.form.title = this.data.category.title;
@@ -92,7 +91,7 @@
         this.sending = true;
 
         this.axios
-          .put(`${this.url}/${this.slug}`, {
+          .put(`${this.url}/${this.categorySlug}`, {
             title: this.form.title,
             description: this.form.description
           })

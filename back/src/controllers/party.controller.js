@@ -39,15 +39,15 @@ exports.party_create = (req, res) => {
 
 /**
 * @description Join a Party
-* @api POST /api/party/join/:id
+* @api POST /api/party/join/:slug
 * @access PRIVATE
 */
 exports.party_join = async (req, res) => {
   try {
-    const partyId = req.params.id
+    const partySlug = req.params.slug
     const currentUser = req.currentUser
 
-    const party = await Party.findOne({ _id: partyId })
+    const party = await Party.findOne({ slug: partySlug })
     if (!party) {
       res.status(404).json({
         sucess: false,
@@ -80,15 +80,15 @@ exports.party_join = async (req, res) => {
 
 /**
 * @description Left a Party
-* @api POST /api/party/left/:id
+* @api POST /api/party/left/:slug
 * @access PRIVATE
 */
 exports.party_left = async (req, res) => {
   try {
-    const partyId = req.params.id
+    const partySlug = req.params.slug
     const currentUser = req.currentUser
 
-    const party = await Party.findOne({ _id: partyId })
+    const party = await Party.findOne({ slug: partySlug })
     if (!party) {
       res.status(404).json({
         sucess: false,

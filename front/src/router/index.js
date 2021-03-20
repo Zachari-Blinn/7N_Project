@@ -23,7 +23,7 @@ const routes = [{
     component: Home,
   },
   {
-    path: '/category/create/:id', //forumId
+    path: '/category/create/:forumSlug',
     name: 'category_create',
     component: CategoryCreate,
     props: true,
@@ -32,7 +32,7 @@ const routes = [{
     }
   },
   {
-    path: '/category/edit/:slug',
+    path: '/category/edit/:categorySlug',
     name: 'category_edit',
     component: CategoryEdit,
     props: true,
@@ -41,7 +41,7 @@ const routes = [{
     }
   },
   {
-    path: '/category/:slugCategory', //forumId
+    path: '/category/:categorySlug',
     name: 'category_show',
     component: CategoryShow,
     props: true,
@@ -55,7 +55,7 @@ const routes = [{
     }
   },
   {
-    path: '/forum/edit/:id',
+    path: '/forum/edit/:forumSlug',
     name: 'forum_edit',
     component: ForumEdit,
     props: true,
@@ -64,7 +64,7 @@ const routes = [{
     }
   },
   {
-    path: '/topic/create/:categoryId',
+    path: '/topic/create/:categorySlug',
     name: 'topic_create',
     component: TopicCreate,
     props: true,

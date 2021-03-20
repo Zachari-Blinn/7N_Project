@@ -1,9 +1,7 @@
 const express = require('express')
 const router = express.Router()
-
 const mustBeLoggedIn = require('../middlewares/mustBeLoggedIn.middlewares')
 const attachCurrentUser = require('../middlewares/attachCurrentUser.middlewares')
-
 const UserController = require('../controllers/user.controller')
 
 router.post('/', UserController.user_create)

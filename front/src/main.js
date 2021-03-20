@@ -9,9 +9,7 @@ import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css' // This line here
 import Vuelidate from 'vuelidate'
-import AxiosPlugin from 'vue-axios-cors';
- 
-Vue.use(AxiosPlugin)
+
 Vue.use(Vuelidate)
 
 Vue.config.productionTip = false;

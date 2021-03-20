@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  props: ["categoryId"],
+  props: ["categorySlug"],
 
   data() {
     return {
@@ -72,7 +72,7 @@ export default {
 
       this.axios
         .post(this.url, {
-          categoryId: this.categoryId,
+          categorySlug: this.categorySlug,
           title: this.form.title,
           content: this.form.content
         })

@@ -27,6 +27,10 @@ const CategorySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  modifiedBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
   isActive: {
     type: Boolean,
     default: true

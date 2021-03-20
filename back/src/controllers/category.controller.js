@@ -10,9 +10,9 @@ const Forum = require('../models/forum')
  */
 exports.category_create = async (req, res) => {
   try {
-    const { forumId, title, description } = req.body
+    const { forumSlug, title, description } = req.body
 
-    const forum = await Forum.findOne({ _id: forumId })
+    const forum = await Forum.findOne({ slug: forumSlug })
     if (!forum) {
       res.status(404).json({
         sucess: false,
@@ -46,8 +46,8 @@ exports.category_create = async (req, res) => {
 }
 
 /**
- * @description Find one category by id
- * @api GET /api/category/:id
+ * @description Find one category by slug
+ * @api GET /api/category/:slug
  * @access PUBLIC
  */
 exports.category_findOne = async (req, res) => {
@@ -88,5 +88,24 @@ exports.category_find = async (req, res) => {
       sucess: false,
       message: 'Something went wrong.'
     })
+  }
+}
+
+/**
+ * @description Update selected category with slug
+ * @api PUT /api/category/:slug
+ * @access PRIVATE
+ */
+ exports.category_update = async (req, res, next) => {
+  try {
+    const category = await Category.findOneAndUpdate({ slug: req.params.slug }, {
+      $set: req.body
+    })
+
+    if (!category) throw new ErrorHandler(404, 'Category not found!')
+
+    res.status(200).json(category)
+  } catch (error) {
+    next(error)
   }
 }

@@ -8,9 +8,9 @@ const Category = require('../models/category')
  */
 exports.topic_create = async (req, res) => {
   try {
-    const { categoryId, title, content } = req.body
+    const { categorySlug, title, content } = req.body
 
-    const category = await Category.findById(categoryId)
+    const category = await Category.findOne({slug: categorySlug})
 
     if (!category) {
       res.status(404).json({

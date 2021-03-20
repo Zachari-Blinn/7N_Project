@@ -19,10 +19,12 @@ exports.auth_register = async (req, res, next) => {
         req.body.role = 'user'
         req.body.isActive = true
 
-        User.create(req.body).then(
-          (user) => {
+        User.create(req.body).then(async (user) => {
+            const token = await user.generateAccessToken('24h')
+
             res.status(201).json({
-              user
+              user,
+              token
             })
           }
         ).catch(

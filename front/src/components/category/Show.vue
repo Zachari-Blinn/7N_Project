@@ -8,7 +8,7 @@
           <md-button class="md-icon-button">
             <md-icon style="color:#A0A0A0;">notifications</md-icon>
           </md-button>
-          <md-button class="md-icon-button" :to="{path: '/topic/create/' + data.category._id}">
+          <md-button class="md-icon-button" :to="{path: '/topic/create/' + data.category.slug}">
             <md-icon style="color:#A0A0A0;">add</md-icon>
           </md-button>
           <md-button class="md-icon-button" :to="{path: '/category/edit/' + data.category.slug}">
@@ -34,8 +34,7 @@
 
 <script>
   export default {
-    name: "category_show",
-    props: ["slugCategory"],
+    props: ["categorySlug"],
 
     data() {
       return {
@@ -48,7 +47,7 @@
 
     mounted: async function () {
       this.axios
-        .get(`${this.url}/${this.slugCategory}`, {
+        .get(`${this.url}/${this.categorySlug}`, {
           params: {
             populate: 'topics'
           }

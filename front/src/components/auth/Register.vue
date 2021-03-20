@@ -52,12 +52,6 @@
     },
 
     methods: {
-      clearForm() {
-        this.$v.$reset()
-        this.form.username = null
-        this.form.email = null
-        this.form.password = null
-      },
       register: function () {
         this.sending = true
 
@@ -70,7 +64,6 @@
           .dispatch("register", data)
           .then(() => {
             this.sending = false
-            this.clearForm()
             this.$router.push("/")
           })
           .catch((err) => {

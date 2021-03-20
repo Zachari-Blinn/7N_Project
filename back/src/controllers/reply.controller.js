@@ -10,9 +10,9 @@ const Reply = require('../models/reply')
  */
 exports.reply_create = async (req, res) => {
   try {
-    const { topicId, content } = req.body
+    const { topicSlug, content } = req.body
 
-    const topic = await Topic.findById(topicId)
+    const topic = await Topic.findOne({slug: topicSlug})
     if (!topic) {
       res.status(404).json({
         sucess: false,

@@ -13,10 +13,10 @@
             <md-button class="md-icon-button">
               <md-icon style="color:#A0A0A0;">notifications</md-icon>
             </md-button>
-            <md-button class="md-icon-button" :to="{path: '/category/create/' + forum._id}">
+            <md-button class="md-icon-button" :to="{path: '/category/create/' + forum.slug}">
               <md-icon style="color:#A0A0A0;">add</md-icon>
             </md-button>
-            <md-button class="md-icon-button" :to="{path: '/forum/edit/' + forum._id}">
+            <md-button class="md-icon-button" :to="{path: '/forum/edit/' + forum.slug}">
               <md-icon style="color:#A0A0A0;">settings</md-icon>
             </md-button>
           </md-table-toolbar>
@@ -72,8 +72,6 @@
 
 <script>
   export default {
-    name: "Forum",
-
     data() {
       return {
         url: "forum",

@@ -47,8 +47,6 @@
 
 <script>
   export default {
-    name: "Forum_create",
-
     data() {
       return {
         url: "forum",

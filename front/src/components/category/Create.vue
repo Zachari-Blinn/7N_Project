@@ -47,7 +47,7 @@
 
 <script>
   export default {
-    props: ["id"],
+    props: ["forumSlug"],
 
     data() {
       return {
@@ -72,7 +72,7 @@
 
         this.axios
           .post(this.url, {
-            forumId: this.id,
+            forumSlug: this.forumSlug,
             title: this.form.title,
             description: this.form.description
           })
