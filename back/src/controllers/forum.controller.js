@@ -1,3 +1,5 @@
+"use strict";
+
 const Forum = require('../models/forum')
 const { ErrorHandler } = require('../helpers/error.helper')
 

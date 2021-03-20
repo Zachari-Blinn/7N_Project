@@ -1,3 +1,5 @@
+"use strict";
+
 const mongoose = require('mongoose')
 
 mongoose.plugin(require('mongoose-slug-generator'))

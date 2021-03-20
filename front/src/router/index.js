@@ -2,23 +2,16 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '@/store/index';
 
-// Pages
 import Home from '@/views/Home.vue';
 import About from '@/views/About.vue';
-import Category from '@/views/Category.vue';
-
-// Component
 import Login from '@/components/auth/Login.vue';
 import Secure from '@/components/auth/Secure.vue';
 import Register from '@/components/auth/Register.vue';
-
 import CategoryCreate from '@/components/category/Create.vue';
 import CategoryShow from '@/components/category/Show.vue';
 import CategoryEdit from '@/components/category/Edit.vue';
-
 import ForumCreate from '@/components/forum/Create.vue';
 import ForumEdit from '@/components/forum/Edit.vue';
-
 import PartyCreate from '@/components/party/Create.vue';
 import TopicCreate from '@/components/topic/Create.vue';
 
@@ -26,12 +19,12 @@ Vue.use(VueRouter);
 
 const routes = [{
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
   },
   {
     path: '/category/create/:id', //forumId
-    name: 'Category_create',
+    name: 'category_create',
     component: CategoryCreate,
     props: true,
     meta: {
@@ -40,7 +33,7 @@ const routes = [{
   },
   {
     path: '/category/edit/:slug',
-    name: 'Category_edit',
+    name: 'category_edit',
     component: CategoryEdit,
     props: true,
     meta: {
@@ -49,13 +42,13 @@ const routes = [{
   },
   {
     path: '/category/:slugCategory', //forumId
-    name: 'Category_show',
+    name: 'category_show',
     component: CategoryShow,
     props: true,
   },
   {
     path: '/forum/create',
-    name: 'Forum_create',
+    name: 'forum_create',
     component: ForumCreate,
     meta: {
       requiresAuth: true
@@ -63,7 +56,7 @@ const routes = [{
   },
   {
     path: '/forum/edit/:id',
-    name: 'Forum_edit',
+    name: 'forum_edit',
     component: ForumEdit,
     props: true,
     meta: {
@@ -72,7 +65,7 @@ const routes = [{
   },
   {
     path: '/topic/create/:categoryId',
-    name: 'Topic_create',
+    name: 'topic_create',
     component: TopicCreate,
     props: true,
     meta: {
@@ -81,7 +74,7 @@ const routes = [{
   },
   {
     path: '/party/create',
-    name: 'Party_create',
+    name: 'party_create',
     component: PartyCreate,
     meta: {
       requiresAuth: true
@@ -90,12 +83,18 @@ const routes = [{
   {
     path: '/login',
     name: 'login',
-    component: Login
+    component: Login,
+    meta: {
+      requiresNotAuth: true
+    }
   },
   {
     path: '/register',
     name: 'register',
-    component: Register
+    component: Register,
+    meta: {
+      requiresNotAuth: true
+    }
   },
   {
     path: '/secure',
@@ -107,7 +106,7 @@ const routes = [{
   },
   {
     path: '/about',
-    name: 'About',
+    name: 'about',
     component: About,
   },
 ];
@@ -119,18 +118,29 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  // Require auth
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isLoggedIn) {
       next()
       return
     }
     next('/login')
+  
+  // Require isAdmin
   } else if (to.matched.some(record => record.meta.requiresAdmin)) {
     if (store.getters.isAdmin) {
       next()
       return
     }
     next('/login')
+
+  // Require isn't auth
+  } else if (to.matched.some(record => record.meta.requiresNotAuth)) {
+    if (!store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/')
   } else {
     next()
   }

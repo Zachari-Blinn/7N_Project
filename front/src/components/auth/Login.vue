@@ -43,8 +43,8 @@
 
     methods: {
       login: function () {
-        let email = this.email;
-        let password = this.password;
+        const { email, password } = this;
+
         this.$store
           .dispatch("login", {
             email,

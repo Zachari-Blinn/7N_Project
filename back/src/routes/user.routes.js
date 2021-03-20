@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const checkAuth = require('../middlewares/token.middlewares')
+const mustBeLoggedIn = require('../middlewares/mustBeLoggedIn.middlewares')
 const attachCurrentUser = require('../middlewares/attachCurrentUser.middlewares')
 
 const UserController = require('../controllers/user.controller')

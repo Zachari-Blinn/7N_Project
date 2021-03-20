@@ -31,8 +31,8 @@ if (token) {
   axios.defaults.headers.common['Authorization'] = token
 }
 
+// Axios config
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-
 axios.defaults.baseURL = 'http://localhost:8081/api/';
 
 new Vue({

@@ -15,7 +15,9 @@ app.use(helmet())
 
 // Setup CORS options
 const corsOptions = {
-  origin: '*'
+  origin: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true
 }
 
 // Load CORS with options

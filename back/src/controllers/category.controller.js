@@ -1,3 +1,5 @@
+"use strict";
+
 const Category = require('../models/category')
 const Forum = require('../models/forum')
 
