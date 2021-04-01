@@ -10,5 +10,6 @@ router.get('/', ForumController.forum_find)
 router.get('/:slug', ForumController.forum_findOne)
 router.put('/:slug', ForumController.forum_update)
 router.delete('/:slug', ForumController.forum_delete)
+router.post('/test/:slug', ForumController.forum_set_permission)
 
 module.exports = router

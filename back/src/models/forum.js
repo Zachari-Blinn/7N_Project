@@ -26,9 +26,20 @@ const ForumSchema = new Schema({
   isActive: {
     type: Boolean,
     default: true
-  }
+  },
+  permission: {
+    type: Schema.Types.ObjectId,
+    ref: 'Permission'
+  },
 }, {
   timestamps: true
+})
+
+ForumSchema.virtual('totalCategories', {
+  ref: 'Category',
+  localField: '_id',
+  foreignField: 'forum',
+  count: true
 })
 
 ForumSchema.pre('findOneAndDelete', { document: true, query: false }, async function () {

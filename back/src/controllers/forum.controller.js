@@ -1,6 +1,7 @@
 "use strict";
 
 const Forum = require('../models/forum')
+const Permission = require('../models/permission')
 const { ErrorHandler } = require('../helpers/error.helper')
 
 /**
@@ -147,6 +148,29 @@ exports.forum_delete = async (req, res, next) => {
   try {
     Forum.findOneAndDelete({ slug: req.params.slug }, (err, forum) => {
       res.status(200).json(forum)
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.forum_set_permission = async (req, res, next) => {
+  try {
+    if (!req.params.slug) res.status(404).json("No slug provided")
+    Forum.findOneAndDelete({ slug: req.params.slug }, (err, forum) => {
+
+      const newPermission = new Permission({
+        create: true,
+        read: true,
+        update: true,
+        delete: true,
+        modelId: forum._id,
+        modelName: "Forum"
+      })
+
+      newPermission.save()
+
+      res.status(200).json(newPermission)
     })
   } catch (error) {
     next(error)

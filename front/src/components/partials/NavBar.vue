@@ -12,7 +12,8 @@
 <script>
   export default {
     computed : {
-      isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
+      isLoggedIn : function(){ return this.$store.getters.isLoggedIn },
+      currentUser : function() { return this.$store.state.user },
     },
     methods: {
       logout: function () {

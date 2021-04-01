@@ -1,5 +1,3 @@
-"use strict";
-
 const User = require('../models/user')
 const { ErrorHandler } = require('../helpers/error.helper')
 
@@ -64,6 +62,8 @@ exports.auth_login = async (req, res, next) => {
     })
       .select({
         _id: 1,
+        email: 1,
+        username: 1,
         password: 1
       })
     if (!user) throw new ErrorHandler(404, 'User not found')
